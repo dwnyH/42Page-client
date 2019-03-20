@@ -19,7 +19,7 @@
             border: 1px solid #ebebeb;
             border-bottom-color: #e2e2e2;
             border-radius: .25em;
-            margin: 50px;
+            margin: 20px;
         }
         input {
             position: absolute;
@@ -34,7 +34,16 @@
     .cropImg {
         margin-top: 20px;
         width: 70vw;
-        height: 50vh;
+        height: 40vh;
         background-color: #F5F7F8;
+    }
+
+    .textify {
+        width: 70vw;
+        height: 30vh;
+    }
+
+    .memo {
+        margin-bottom: 100px;
     }
 }

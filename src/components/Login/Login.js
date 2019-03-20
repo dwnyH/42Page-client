@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './Login.scss';
 import firebase from 'firebase/app';
 import 'firebase/auth';

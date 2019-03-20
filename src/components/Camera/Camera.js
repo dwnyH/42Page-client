@@ -1,29 +1,37 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './Camera.scss';
-import ReactCrop, {makeAspectCrop} from 'react-image-crop';
+import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import 'firebase/auth';
+import axios from 'axios';
 
 class Camera extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      src: null,
+      src: '',
       crop: {
         x: 10,
         y: 10,
         width: 80,
         height: 80,
-      croppedImageUrl: null,
+        croppedImageUrl: '',
       },
+      croppedImageUrl: '',
+      detectedText: '',
     };
 
+    this.imageRef = '';
+    this.editText = this.editText.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
     this.turnToText = this.turnToText.bind(this);
+  }
 
-    this.fileUrl = null;
-    this.imageRef = null;
-    // this.imgRef = React.createRef();
+  editText(ev) {
+    const edited = ev.target.value;
+    this.setState({
+      detectedText: edited,
+    });
   }
 
   fileUpload(ev) {
@@ -36,8 +44,9 @@ class Camera extends Component {
   }
 
   onImageLoaded = (image, pixelCrop) => {
+    const { crop } = this.state;
     this.imageRef = image;
-    this.makeClientCrop(this.state.crop, pixelCrop);
+    this.makeClientCrop(crop, pixelCrop);
   }
 
   onCropComplete = (crop, pixelCrop) => {
@@ -49,7 +58,6 @@ class Camera extends Component {
   }
 
   getCroppedImg(image, pixelCrop, fileName) {
-    console.log('getCroppedImg', { image, pixelCrop, fileName });
     const canvas = document.createElement('canvas');
     canvas.width = pixelCrop.width;
     canvas.height = pixelCrop.height;
@@ -67,36 +75,63 @@ class Camera extends Component {
       pixelCrop.height,
     );
 
-    canvas.toBlob((blob) => {
-      blob.name = fileName;
-      URL.revokeObjectURL(this.state.src);
-      URL.revokeObjectURL(this.fileUrl);
-      this.fileUrl = URL.createObjectURL(blob);
-    }, 'image/jpeg');
-
-    return this.fileUrl;
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        blob.name = fileName;
+        resolve(blob);
+      }, 'image/jpeg');
+    });
   }
 
   async makeClientCrop(crop, pixelCrop) {
     if (this.imageRef && crop.width && crop.height) {
-      const croppedImageUrl = await this.getCroppedImg(
+      this.getCroppedImg(
         this.imageRef,
         pixelCrop,
         'newFile.jpeg',
-      );
-
-      this.setState({ croppedImageUrl });
+      ).then((blob) => {
+        let imgData;
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          imgData = reader.result.split(",")[1];
+          this.setState({
+            croppedImageUrl: imgData,
+          });
+        };
+        reader.readAsDataURL(blob);
+        this.setState({
+          croppedImageUrl: blob,
+        });
+      });
     }
   }
 
-  turnToText() {
-    debugger;
-    // blob:http://localhost:3000/40e7c24e-0093-42e9-ae51-9f51e0e4bc70
-    console.log(this.state.croppedImageUrl);
+  async turnToText() {
+    const { croppedImageUrl } = this.state;
+    const url = 'https://vision.googleapis.com/v1';
+    const key = 'AIzaSyBg53Ahf1eE4HgSkp_snfM-8Fs5qusTHcw';
+    const textDetectionResponse = await axios.post(`${url}/images:annotate?key=${key}`, {
+      requests: [
+        {
+          image: {
+            content: croppedImageUrl,
+          },
+          features: [
+            {
+              type: 'TEXT_DETECTION',
+            },
+          ],
+        },
+      ],
+    });
+
+    this.setState({
+      detectedText: textDetectionResponse.data.responses[0].fullTextAnnotation.text,
+    });
   }
 
   render() {
-     const { croppedImageUrl } = this.state;
+    const { src, crop, detectedText } = this.state;
     return (
       <div className="imgUpload">
         <div className="filebox">
@@ -112,23 +147,25 @@ class Camera extends Component {
           />
         </div>
         <div className="cropImg">
-        {this.state.src
-        ? (
-          <ReactCrop
-            src={this.state.src}
-            crop={this.state.crop}
-            onImageLoaded={this.onImageLoaded}
-            onComplete={this.onCropComplete}
-            onChange={this.onCropChange}
-            onDragStart={this.onDragStart}
-            onDragEnd={this.onDragEnd}
-            renderSelectionAddon={this.renderSelectionAddon}
-          />
-        )
-        : 'upload file'
+          {src
+            ? (
+              <ReactCrop
+                src={src}
+                crop={crop}
+                onImageLoaded={this.onImageLoaded}
+                onComplete={this.onCropComplete}
+                onChange={this.onCropChange}
+                onDragStart={this.onDragStart}
+                onDragEnd={this.onDragEnd}
+                renderSelectionAddon={this.renderSelectionAddon}
+              />
+            )
+            : 'upload file'
         }
         </div>
-        <button type="submit" onClick={this.turnToText}>memo</button>
+        <button className="bookmark" type="submit" onClick={this.turnToText}>bookmark</button>
+        <textarea className="textify" onChange={this.editText} value={detectedText} />
+        <Link className="memo" to="/memo">memo</Link>
       </div>
     );
   }
