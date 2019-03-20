@@ -3,6 +3,7 @@ import './Login.scss';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import axios from 'axios';
+import config from '../../facebook_config';
 
 class Login extends Component {
   constructor(props) {
@@ -10,6 +11,13 @@ class Login extends Component {
 
     this.facebookLogin = this.facebookLogin.bind(this);
     this.facebookLogOut = this.facebookLogOut.bind(this);
+  }
+
+  componentDidMount() {
+    if (!firebase.apps.length) {
+      debugger;
+      firebase.initializeApp(config);
+    }
   }
 
   facebookLogin() {
@@ -20,7 +28,7 @@ class Login extends Component {
       if (result) {
         const { email, photoURL, uid } = result.user;
         const name = result.user.displayName;
-        const url = 'http://192.168.0.81:8081';
+        const url = 'http://172.30.1.21:8081';
         const jwtTokenResponse = await axios.post(`${url}/auth`, {
           name,
           email,

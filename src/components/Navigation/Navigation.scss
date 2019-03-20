@@ -1,0 +1,13 @@
+.navigation {
+    display: grid;
+    font-size: 30px;
+    padding: 20px 0;
+    background: rgba(0,0,0,0.6);
+    grid-auto-flow: column;
+    width: 100%;
+    justify-content: space-around;
+    align-items: flex-end;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
