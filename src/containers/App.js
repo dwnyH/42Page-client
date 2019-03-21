@@ -1,13 +1,15 @@
 import React, { Fragment, Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import firebase from 'firebase/app';
+import axios from 'axios';
 import Navigation from '../components/Navigation/Navigation';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import Camera from '../components/Camera/Camera';
+import BookSearch from '../components/BookSearch/BookSearch';
+import Memo from '../components/Memo/Memo';
 import * as actions from '../actions';
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { sendLoadingState } = this.props;
+    const { sendLoadingState, searchStop } = this.props;
     sendLoadingState();
 
     // if (!firebase.apps.length) {
@@ -27,7 +29,15 @@ class App extends Component {
   render() {
     debugger;
     const token = localStorage.getItem('token');
-    const { loading } = this.props;
+    const {
+      loading,
+      books,
+      bookSearch,
+      sendChosenBook,
+      chosenBook,
+      sendAddedMemo,
+      memo,
+    } = this.props;
 
     return (
       // // <Router>
@@ -65,6 +75,30 @@ class App extends Component {
                 <Camera {...props} />
               )}
             />
+            <Route
+              exact
+              path="/memo"
+              render={props => (
+                <Memo
+                  {...props}
+                  memo={memo}
+                  sendAddedMemo={sendAddedMemo}
+                  chosenBook={chosenBook}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/bookSearch"
+              render={props => (
+                <BookSearch
+                  {...props}
+                  books={books}
+                  searchBtnClick={bookSearch}
+                  bookClick={sendChosenBook}
+                />
+              )}
+            />
             <Navigation />
           </Fragment>
         )
@@ -75,16 +109,37 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.loading,
+    loading: state.loading.initiate,
+    books: state.books,
+    chosenBook: state.memo.book,
+    memo: state.memo.memo,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  async bookSearch(keyword, page, isNewKeyword) {
+    if (keyword && page) {
+      const url = 'https://dapi.kakao.com/v3/search/book';
+      const searchResponse = await axios.get(
+        `${url}?query=${keyword}&size=20&page=${page}`, {
+          headers: {
+            Authorization: 'KakaoAK 80fbcd0a3e420c112690cb3a68ae4511',
+          },
+        },
+      );
+
+      dispatch(actions.sendBookData(keyword, page, isNewKeyword, searchResponse));
+    }
+  },
+  sendAddedMemo(memo) {
+    dispatch(actions.sendAddedMemo(memo));
+  },
+  sendChosenBook(img, title, author, publisher) {
+    dispatch(actions.sendChosenBook(img, title, author, publisher));
+  },
   sendLoadingState() {
     dispatch(actions.sendLoadingState());
   },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
-
-// export default withRouter(App);

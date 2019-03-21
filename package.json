@@ -34,7 +34,8 @@
       "react/sort-comp": 0,
       "no-alert": 0,
       "no-underscore-dangle": 0,
-      "jsx-a11y/click-events-have-key-events": 0
+      "jsx-a11y/click-events-have-key-events": 0,
+      "no-case-declarations": 0
     }
   },
   "browserslist": [

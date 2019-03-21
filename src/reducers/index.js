@@ -1,22 +1,12 @@
-import { cloneDeep } from 'lodash';
-import {
-  LOADING_STATE_SEND,
-} from '../actions/ActionTypes';
+import { combineReducers } from 'redux';
+import books from './books';
+import loading from './loading';
+import memo from './memo';
 
-const initialState = {
-  loading: true,
-};
+const reducers = combineReducers({
+  books,
+  loading,
+  memo,
+});
 
-export default (state = initialState, action) => {
-  const copiedState = cloneDeep(state);
-
-  switch (action.type) {
-    case LOADING_STATE_SEND:
-      copiedState.loading = false;
-
-      return copiedState;
-
-    default:
-      return state;
-  }
-};
+export default reducers;

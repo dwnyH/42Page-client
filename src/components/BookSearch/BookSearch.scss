@@ -1,0 +1,30 @@
+.bookSearch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 0.3px solid;
+    margin-top: 50px;
+    padding: 5px 20px;
+
+    input {
+        margin-top: 50px;
+        width: 70vw;
+    }
+
+    .searchBox {
+        width: 80vw;
+
+        input {
+            width: 70vw;
+        }
+    }
+
+    .userInputBox {
+        width: 80vw;
+
+        input {
+            width: 70vw;
+        }
+    }
+}

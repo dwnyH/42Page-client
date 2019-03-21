@@ -165,7 +165,7 @@ class Camera extends Component {
         </div>
         <button className="bookmark" type="submit" onClick={this.turnToText}>bookmark</button>
         <textarea className="textify" onChange={this.editText} value={detectedText} />
-        <Link className="memo" to="/memo">memo</Link>
+        <Link to={{ pathname: '/memo', query: { highlights: detectedText } }} className="memo">memo</Link>
       </div>
     );
   }

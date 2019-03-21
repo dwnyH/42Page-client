@@ -1,2 +1,4 @@
 export const LOADING_STATE_SEND = 'LOADING_STATE_SEND';
-
+export const BOOK_DATA_SEND = 'BOOK_DATA_SEND';
+export const CHOSEN_BOOK_SEND = 'CHOSEN_BOOK_SEND';
+export const ADDED_MEMO_SEND = 'ADDED_MEMO_SEND';
