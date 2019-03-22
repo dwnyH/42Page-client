@@ -14,7 +14,7 @@ class Navigation extends Component {
         <i className="fas fa-book-open" />
         <i className="fas fa-search" />
         <Link to="/camera"><i className="fas fa-camera-retro" /></Link>
-        <i className="fas fa-user-circle" />
+        <Link to="/profile"><i className="fas fa-user-circle" /></Link>
       </div>
     );
   }

@@ -1,0 +1,37 @@
+.profileBox {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .userImg {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .profile {
+        display: grid;
+        grid-auto-flow: column;
+        margin: 20px;
+        width: 90vw;
+        grid-template-columns: 1fr 3fr;
+
+        .postInfo {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+
+    .profileNavi {
+        display: flex;
+        width: 90vw;
+        justify-content: space-around;
+
+        button {
+            background: none;
+            border: none;
+            font-size: 20px;
+        }
+    }
+}

@@ -2,12 +2,14 @@ import React, { Fragment, Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import moment from 'moment';
 import Navigation from '../components/Navigation/Navigation';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import Camera from '../components/Camera/Camera';
 import BookSearch from '../components/BookSearch/BookSearch';
 import Memo from '../components/Memo/Memo';
+import Profile from '../components/Profile/Profile';
 import * as actions from '../actions';
 import './App.scss';
 
@@ -35,8 +37,15 @@ class App extends Component {
       bookSearch,
       sendChosenBook,
       chosenBook,
-      sendAddedMemo,
-      memo,
+      sendHighlights,
+      highlights,
+      sendUserProfile,
+      profile,
+      sendUserMemos,
+      memos,
+      sendUserBooks,
+      userBooks,
+      memoSearching,
     } = this.props;
 
     return (
@@ -72,7 +81,9 @@ class App extends Component {
               exact
               path="/camera"
               render={props => (
-                <Camera {...props} />
+                <Camera {...props}
+                  addMemoBtnClick={sendHighlights}
+                />
               )}
             />
             <Route
@@ -81,8 +92,7 @@ class App extends Component {
               render={props => (
                 <Memo
                   {...props}
-                  memo={memo}
-                  sendAddedMemo={sendAddedMemo}
+                  highlights={highlights}
                   chosenBook={chosenBook}
                 />
               )}
@@ -99,7 +109,26 @@ class App extends Component {
                 />
               )}
             />
-            <Navigation />
+            <Route
+              exact
+              path="/profile"
+              render={props => (
+                <Profile
+                  {...props}
+                  getUserProfile={sendUserProfile}
+                  profile={profile}
+                  getUserMemos={sendUserMemos}
+                  memos={memos}
+                  memoSearching={memoSearching}
+                  getUserBooks={sendUserBooks}
+                  userBooks={userBooks}
+                />
+              )}
+            />
+            {token
+              && (
+                <Navigation />
+              )}
           </Fragment>
         )
       // </Router>
@@ -108,11 +137,33 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const convertPostDate = (date) => {
+    let convertedDate;
+    if (moment(date).format('YYYY') === moment().format('YYYY')) {
+      if (moment(date).format('MMMM') === moment().format('MMMM')) {
+        convertedDate = moment(date).fromNow();
+      } else {
+        convertedDate = moment(date).format('MMMM do');
+      }
+    } else {
+      convertedDate = moment(date).format('YYYY MMMM Do');
+    }
+    return convertedDate;
+  };
+
+  state.post.memos.forEach((memo) => {
+    memo.createdAt = convertPostDate(memo.createdAt);
+  });
+
   return {
     loading: state.loading.initiate,
     books: state.books,
     chosenBook: state.memo.book,
-    memo: state.memo.memo,
+    highlights: state.memo.highlights,
+    profile: state.post.profile,
+    memos: state.post.memos,
+    userBooks: state.post.books,
+    memoSearching: state.post.memoSearching,
   };
 };
 
@@ -131,14 +182,59 @@ const mapDispatchToProps = dispatch => ({
       dispatch(actions.sendBookData(keyword, page, isNewKeyword, searchResponse));
     }
   },
-  sendAddedMemo(memo) {
-    dispatch(actions.sendAddedMemo(memo));
-  },
   sendChosenBook(img, title, author, publisher) {
     dispatch(actions.sendChosenBook(img, title, author, publisher));
   },
+  sendHighlights(memo) {
+    dispatch(actions.sendHighlights(memo));
+  },
   sendLoadingState() {
     dispatch(actions.sendLoadingState());
+  },
+  async sendUserBooks() {
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    const api = 'http://192.168.0.81:8081';
+    const userInfoResponse = await axios({
+      method: 'get',
+      url: `${api}/users/${id}/books`,
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+
+    dispatch(actions.sendUserBooks(userInfoResponse.data));
+  },
+  async sendUserProfile() {
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    const api = 'http://192.168.0.81:8081';
+    const userInfoResponse = await axios({
+      method: 'get',
+      url: `${api}/users/${id}/userInfo`,
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+
+    dispatch(actions.sendUserProfile(userInfoResponse.data));
+  },
+  async sendUserMemos(page) {
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    const api = 'http://192.168.0.81:8081';
+    const userMemosResponse = await axios({
+      method: 'get',
+      url: `${api}/users/${id}/memos/${page}`,
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+
+    dispatch(actions.sendUserMemos(userMemosResponse.data));
   },
 });
 

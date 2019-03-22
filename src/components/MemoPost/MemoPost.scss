@@ -1,0 +1,16 @@
+.memoPosts {
+    width: 90vw;
+
+    .memoPost{
+        margin: 20px;
+        padding: 10px;
+        background-color: rgb(247, 242, 236);
+    }
+
+    .highlights {
+        margin: 10px;
+        border: 0.2px solid gray;
+        padding: 10px;
+        border-radius: 10px;
+    }
+}

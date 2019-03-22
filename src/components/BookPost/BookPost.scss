@@ -1,0 +1,24 @@
+.bookPosts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh;
+
+    .bookList {
+        display: grid;
+        grid-auto-flow: column;
+        width: 60vw;
+    }
+
+    img {
+        height: 120px;
+        width: 82.75px;
+    }
+
+    .bookContents {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

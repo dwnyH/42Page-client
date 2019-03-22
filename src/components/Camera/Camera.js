@@ -25,6 +25,7 @@ class Camera extends Component {
     this.editText = this.editText.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
     this.turnToText = this.turnToText.bind(this);
+    this.writeMemo = this.writeMemo.bind(this);
   }
 
   editText(ev) {
@@ -130,7 +131,16 @@ class Camera extends Component {
     });
   }
 
+  writeMemo() {
+    const { addMemoBtnClick, history } = this.props;
+    const { detectedText } = this.state;
+
+    addMemoBtnClick(detectedText);
+    history.push('/memo');
+  }
+
   render() {
+    debugger;
     const { src, crop, detectedText } = this.state;
     return (
       <div className="imgUpload">
@@ -165,7 +175,8 @@ class Camera extends Component {
         </div>
         <button className="bookmark" type="submit" onClick={this.turnToText}>bookmark</button>
         <textarea className="textify" onChange={this.editText} value={detectedText} />
-        <Link to={{ pathname: '/memo', query: { highlights: detectedText } }} className="memo">memo</Link>
+        <button onClick={this.writeMemo} className="memo" type="submit">Add memo</button>
+        {/* //<Link to={{ pathname: '/memo', query: { highlights: detectedText } }} className="memo">memo</Link> */}
       </div>
     );
   }
