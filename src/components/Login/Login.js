@@ -27,7 +27,7 @@ class Login extends Component {
       if (result) {
         const { email, photoURL, uid } = result.user;
         const name = result.user.displayName;
-        const url = 'http://192.168.0.81:8081';
+        const url = 'http://172.30.1.3:8081';
         const jwtTokenResponse = await axios.post(`${url}/auth`, {
           name,
           email,
@@ -65,19 +65,24 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="loginBtn">
-        <button
-          className="facebook"
-          type="submit"
-          onClick={this.facebookLogin}
-        >
-          facebook login
-        </button>
-        <button
-          type="submit"
-          onClick={this.facebookLogOut}
-        >logout
-        </button>
+      <div className="loginPage">
+        <div className="title">
+          blowing
+        </div>
+        <div className="loginBtn">
+          <button
+            className="facebook"
+            type="submit"
+            onClick={this.facebookLogin}
+          >
+            facebook login
+          </button>
+          <button
+            type="submit"
+            onClick={this.facebookLogOut}
+          >logout
+          </button>
+        </div>
       </div>
     );
   }

@@ -47,8 +47,8 @@ class MemoPost extends Component {
 
   makeMemoLists() {
     const { memos, profile } = this.props;
-    const memoLists = memos.map((memo, idx) => (
-      <div className="memoPost" key={idx}>
+    const memoLists = memos.map(memo => (
+      <div className="memoPost" key={memo._id}>
         <div className="highlights">
           {memo.highlights}
         </div>

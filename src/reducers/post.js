@@ -3,6 +3,7 @@ import {
   USER_PROFILE_SEND,
   USER_MEMOS_SEND,
   USER_BOOKS_SEND,
+  SELECTED_BOOK_MEMOS_SEND,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -14,6 +15,10 @@ const initialState = {
   },
   books: [],
   memos: [],
+  chosenBook: {
+    bookInfo: {},
+    selectedBookMemos: [],
+  },
   memoSearching: true,
 };
 
@@ -41,6 +46,12 @@ export default (state = initialState, action) => {
 
     case USER_BOOKS_SEND:
       copiedState.books = action.books;
+
+      return copiedState;
+
+    case SELECTED_BOOK_MEMOS_SEND:
+      copiedState.chosenBook.bookInfo = action.chosenBook;
+      copiedState.chosenBook.selectedBookMemos = action.memos;
 
       return copiedState;
 

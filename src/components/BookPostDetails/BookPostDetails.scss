@@ -1,0 +1,26 @@
+.bookPostDetails {
+    display: flex;
+    justify-content: center;
+
+    .memoPosts {
+        display: flex;
+        flex-direction: column;
+
+        .memoPost{
+            margin: 20px;
+            padding: 10px;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .highlights {
+            margin: 10px;
+            border: 0.2px solid gray;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    }
+}
+
+.bookPostDetails::before {
+    filter: blur(50px);
+}

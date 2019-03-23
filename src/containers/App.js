@@ -10,6 +10,7 @@ import Camera from '../components/Camera/Camera';
 import BookSearch from '../components/BookSearch/BookSearch';
 import Memo from '../components/Memo/Memo';
 import Profile from '../components/Profile/Profile';
+import BookPostDetails from '../components/BookPostDetails/BookPostDetails';
 import * as actions from '../actions';
 import './App.scss';
 
@@ -39,13 +40,17 @@ class App extends Component {
       chosenBook,
       sendHighlights,
       highlights,
-      sendUserProfile,
+      getUserProfile,
       profile,
-      sendUserMemos,
+      getUserMemos,
       memos,
-      sendUserBooks,
+      getUserBooks,
       userBooks,
       memoSearching,
+      deleteMemos,
+      getSelectedMemos,
+      chosenBookForMemos,
+      memosWithBook,
     } = this.props;
 
     return (
@@ -81,7 +86,8 @@ class App extends Component {
               exact
               path="/camera"
               render={props => (
-                <Camera {...props}
+                <Camera
+                  {...props}
                   addMemoBtnClick={sendHighlights}
                 />
               )}
@@ -115,13 +121,26 @@ class App extends Component {
               render={props => (
                 <Profile
                   {...props}
-                  getUserProfile={sendUserProfile}
+                  getUserProfile={getUserProfile}
                   profile={profile}
-                  getUserMemos={sendUserMemos}
+                  getUserMemos={getUserMemos}
                   memos={memos}
                   memoSearching={memoSearching}
-                  getUserBooks={sendUserBooks}
+                  getUserBooks={getUserBooks}
                   userBooks={userBooks}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/books/:bookTitle"
+              render={props => (
+                <BookPostDetails
+                  {...props}
+                  getSelectedMemos={getSelectedMemos}
+                  memos={memosWithBook}
+                  bookInfo={chosenBookForMemos}
+                  deleteBtnClick={deleteMemos}
                 />
               )}
             />
@@ -155,6 +174,10 @@ const mapStateToProps = (state) => {
     memo.createdAt = convertPostDate(memo.createdAt);
   });
 
+  state.post.chosenBook.selectedBookMemos.forEach((memo) => {
+    memo.createdAt = convertPostDate(memo.createdAt);
+  });
+
   return {
     loading: state.loading.initiate,
     books: state.books,
@@ -164,6 +187,9 @@ const mapStateToProps = (state) => {
     memos: state.post.memos,
     userBooks: state.post.books,
     memoSearching: state.post.memoSearching,
+    selectedBookMemos: state.post.selectedBookMemos,
+    chosenBookForMemos: state.post.chosenBook.bookInfo,
+    memosWithBook: state.post.chosenBook.selectedBookMemos,
   };
 };
 
@@ -191,10 +217,24 @@ const mapDispatchToProps = dispatch => ({
   sendLoadingState() {
     dispatch(actions.sendLoadingState());
   },
-  async sendUserBooks() {
+  async deleteMemos(postId) {
+    const token = localStorage.getItem('token');
+    const api = 'http://172.30.1.3:8081';
+    const deleteRequestResponse = await axios({
+      method: 'delete',
+      url: `${api}/posts/${postId}`,
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+    console.log('deleteResponse', deleteRequestResponse);
+    // dispatch(actions.sendUserBooks(userInfoResponse.data));
+  },
+  async getUserBooks() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.3:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/books`,
@@ -206,10 +246,10 @@ const mapDispatchToProps = dispatch => ({
 
     dispatch(actions.sendUserBooks(userInfoResponse.data));
   },
-  async sendUserProfile() {
+  async getUserProfile() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.3:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -218,13 +258,13 @@ const mapDispatchToProps = dispatch => ({
         'Content-Type': 'application/json; charset=utf-8',
       },
     });
-
+    debugger;
     dispatch(actions.sendUserProfile(userInfoResponse.data));
   },
-  async sendUserMemos(page) {
+  async getUserMemos(page) {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.3:8081';
     const userMemosResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/memos/${page}`,
@@ -235,6 +275,33 @@ const mapDispatchToProps = dispatch => ({
     });
 
     dispatch(actions.sendUserMemos(userMemosResponse.data));
+  },
+  async getSelectedMemos(bookTitle) {
+    debugger;
+    let memoRequestResponse;
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    const api = 'http://172.30.1.3:8081';
+    try {
+      memoRequestResponse = await axios({
+        method: 'get',
+        url: `${api}/users/${id}/books/${bookTitle}/memos`,
+        headers: {
+          'Authorization': `bearer ${token}`,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    debugger;
+
+    dispatch(actions.sendSelectedMemos(memoRequestResponse.data.memos, memoRequestResponse.data.chosenBook));
+
+    // this.props.history.push({
+    //   pathname: `./books/${bookInfo.title}`,
+    //   // bookInfo: selectedBook,
+    // });
   },
 });
 

@@ -42,14 +42,13 @@ class BookSearch extends Component {
   }
 
   enterKeyPress(ev) {
-    debugger;
     this.debouncedKeyPress(ev.key, ev.target.className);
   }
 
   inputBook() {
     const { bookClick, history } = this.props;
     const { writtenInput } = this.state;
-    debugger;
+
     if (writtenInput.length) {
       bookClick(null, writtenInput, null, null);
       history.push('/memo');

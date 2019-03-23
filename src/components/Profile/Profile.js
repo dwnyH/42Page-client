@@ -35,7 +35,16 @@ class Profile extends Component {
 
   render() {
     const { memoPage } = this.state;
-    const { profile, getUserMemos, memos, userBooks, getUserBooks, memoSearching } = this.props;
+    const {
+      profile,
+      getUserMemos,
+      memos,
+      userBooks,
+      getUserBooks,
+      memoSearching,
+      deleteBtnClick,
+      history,
+    } = this.props;
 
     return (
       <div className="profileBox">
@@ -67,7 +76,7 @@ class Profile extends Component {
             className="memoButton"
             onClick={this.postingChange}
           >
-            <i className="fas fa-pen-square" />
+            <i className="fas fa-highlighter" />
           </button>
           <button
             type="submit"
@@ -84,10 +93,12 @@ class Profile extends Component {
               memos={memos}
               profile={profile}
               memoSearching={memoSearching}
+              deleteBtnClick={deleteBtnClick}
             />
           )
           : (
             <BookPost
+              history={history}
               userBooks={userBooks}
               getUserBooks={getUserBooks}
             />

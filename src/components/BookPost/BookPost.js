@@ -13,13 +13,26 @@ class BookPost extends Component {
     if (!userBooks.legnth) {
       getUserBooks();
     }
+
+    this.bookClicked = this.bookClicked.bind(this);
+  }
+
+  bookClicked(ev) {
+    const { userBooks, history } = this.props;
+    debugger;
+    const selectedBook = userBooks[ev.currentTarget.id];
+
+    history.push({
+      pathname: `./books/${selectedBook.title}`,
+      bookInfo: selectedBook,
+    });
   }
 
   makeBookPosts() {
     const { userBooks } = this.props;
 
     const bookPostLists = userBooks.map((book, idx) => (
-      <div className="bookList" key={idx}>
+      <div className="bookList" key={idx} id={idx} onClick={this.bookClicked}>
         <img src={book.img} alt="thumbnail" />
         <div className="bookContents">
           <div className="title">{book.title}</div>

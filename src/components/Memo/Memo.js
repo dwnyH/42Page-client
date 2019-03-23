@@ -33,7 +33,7 @@ class Memo extends Component {
     const { isPrivate, addedMemo } = this.state;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.3:8081';
     try {
       const memoSubmitResponse = await axios({
         method: 'post',

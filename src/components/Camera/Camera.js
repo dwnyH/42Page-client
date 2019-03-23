@@ -25,7 +25,7 @@ class Camera extends Component {
     this.editText = this.editText.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
     this.turnToText = this.turnToText.bind(this);
-    this.writeMemo = this.writeMemo.bind(this);
+    this.memoClick = this.memoClick.bind(this);
   }
 
   editText(ev) {
@@ -126,12 +126,16 @@ class Camera extends Component {
       ],
     });
 
-    this.setState({
-      detectedText: textDetectionResponse.data.responses[0].fullTextAnnotation.text,
-    });
+    if (Object.keys(textDetectionResponse.data.responses[0]).length) {
+      this.setState({
+        detectedText: textDetectionResponse.data.responses[0].fullTextAnnotation.text,
+      });
+    } else {
+      window.alert('인식된 텍스트가 없습니다. 다시 선택해주세요 :)');
+    }
   }
 
-  writeMemo() {
+  memoClick() {
     const { addMemoBtnClick, history } = this.props;
     const { detectedText } = this.state;
 
@@ -140,7 +144,6 @@ class Camera extends Component {
   }
 
   render() {
-    debugger;
     const { src, crop, detectedText } = this.state;
     return (
       <div className="imgUpload">
@@ -175,8 +178,7 @@ class Camera extends Component {
         </div>
         <button className="bookmark" type="submit" onClick={this.turnToText}>bookmark</button>
         <textarea className="textify" onChange={this.editText} value={detectedText} />
-        <button onClick={this.writeMemo} className="memo" type="submit">Add memo</button>
-        {/* //<Link to={{ pathname: '/memo', query: { highlights: detectedText } }} className="memo">memo</Link> */}
+        <button onClick={this.memoClick} className="memo" type="submit">Add memo</button>
       </div>
     );
   }

@@ -6,6 +6,7 @@ import {
   USER_PROFILE_SEND,
   USER_MEMOS_SEND,
   USER_BOOKS_SEND,
+  SELECTED_BOOK_MEMOS_SEND,
 } from './ActionTypes';
 
 export function sendLoadingState() {
@@ -59,5 +60,13 @@ export function sendUserBooks(books) {
   return {
     type: USER_BOOKS_SEND,
     books,
+  };
+}
+
+export function sendSelectedMemos(memos, chosenBook) {
+  return {
+    type: SELECTED_BOOK_MEMOS_SEND,
+    memos,
+    chosenBook,
   };
 }
