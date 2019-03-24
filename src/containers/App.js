@@ -22,11 +22,6 @@ class App extends Component {
   componentDidMount() {
     const { sendLoadingState, searchStop } = this.props;
     sendLoadingState();
-
-    // if (!firebase.apps.length) {
-    //   debugger;
-    //   firebase.initializeApp(config);
-    // }
   }
 
   render() {
@@ -37,9 +32,7 @@ class App extends Component {
       books,
       bookSearch,
       sendChosenBook,
-      chosenBook,
       sendHighlights,
-      highlights,
       getUserProfile,
       profile,
       getUserMemos,
@@ -47,10 +40,13 @@ class App extends Component {
       getUserBooks,
       userBooks,
       memoSearching,
-      deleteMemos,
       getSelectedMemos,
       chosenBookForMemos,
       memosWithBook,
+      sendAddedMemo,
+      sendEditingState,
+      memoInfo,
+      sendMemoState,
     } = this.props;
 
     return (
@@ -89,6 +85,7 @@ class App extends Component {
                 <Camera
                   {...props}
                   addMemoBtnClick={sendHighlights}
+                  sendEditingState={sendEditingState}
                 />
               )}
             />
@@ -98,8 +95,10 @@ class App extends Component {
               render={props => (
                 <Memo
                   {...props}
-                  highlights={highlights}
-                  chosenBook={chosenBook}
+                  memoInfo={memoInfo}
+                  highlightsOnChange={sendHighlights}
+                  memoOnchange={sendAddedMemo}
+                  sendMemoState={sendMemoState}
                 />
               )}
             />
@@ -137,10 +136,13 @@ class App extends Component {
               render={props => (
                 <BookPostDetails
                   {...props}
+                  sendAddedMemo={sendAddedMemo}
+                  sendHighlights={sendHighlights}
                   getSelectedMemos={getSelectedMemos}
                   memos={memosWithBook}
                   bookInfo={chosenBookForMemos}
-                  deleteBtnClick={deleteMemos}
+                  sendEditingState={sendEditingState}
+                  sendChosenBook={sendChosenBook}
                 />
               )}
             />
@@ -156,6 +158,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  debugger;
+  let userBookPosts;
   const convertPostDate = (date) => {
     let convertedDate;
     if (moment(date).format('YYYY') === moment().format('YYYY')) {
@@ -178,18 +182,25 @@ const mapStateToProps = (state) => {
     memo.createdAt = convertPostDate(memo.createdAt);
   });
 
+  if (state.post.books.length) {
+    debugger;
+    userBookPosts = state.post.books.map(book => JSON.parse(book));
+  } else {
+    userBookPosts = state.post.books;
+  }
+
   return {
     loading: state.loading.initiate,
     books: state.books,
-    chosenBook: state.memo.book,
-    highlights: state.memo.highlights,
     profile: state.post.profile,
     memos: state.post.memos,
-    userBooks: state.post.books,
+    userBooks: userBookPosts,
     memoSearching: state.post.memoSearching,
     selectedBookMemos: state.post.selectedBookMemos,
     chosenBookForMemos: state.post.chosenBook.bookInfo,
     memosWithBook: state.post.chosenBook.selectedBookMemos,
+    postInfo: state.post,
+    memoInfo: state.memo,
   };
 };
 
@@ -211,30 +222,25 @@ const mapDispatchToProps = dispatch => ({
   sendChosenBook(img, title, author, publisher) {
     dispatch(actions.sendChosenBook(img, title, author, publisher));
   },
+  sendAddedMemo(memo) {
+    dispatch(actions.sendAddedMemo(memo));
+  },
+  sendMemoState(isPrivate) {
+    dispatch(actions.sendMemoState(isPrivate));
+  },
+  sendEditingState(isNew) {
+    dispatch(actions.sendEditingState(isNew));
+  },
   sendHighlights(memo) {
     dispatch(actions.sendHighlights(memo));
   },
   sendLoadingState() {
     dispatch(actions.sendLoadingState());
   },
-  async deleteMemos(postId) {
-    const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.3:8081';
-    const deleteRequestResponse = await axios({
-      method: 'delete',
-      url: `${api}/posts/${postId}`,
-      headers: {
-        Authorization: `bearer ${token}`,
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    });
-    console.log('deleteResponse', deleteRequestResponse);
-    // dispatch(actions.sendUserBooks(userInfoResponse.data));
-  },
   async getUserBooks() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.3:8081';
+    const api = 'http://192.168.0.81:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/books`,
@@ -249,7 +255,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserProfile() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.3:8081';
+    const api = 'http://192.168.0.81:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -264,7 +270,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserMemos(page) {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.3:8081';
+    const api = 'http://192.168.0.81:8081';
     const userMemosResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/memos/${page}`,
@@ -281,7 +287,7 @@ const mapDispatchToProps = dispatch => ({
     let memoRequestResponse;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.3:8081';
+    const api = 'http://192.168.0.81:8081';
     try {
       memoRequestResponse = await axios({
         method: 'get',

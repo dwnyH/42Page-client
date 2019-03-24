@@ -2,11 +2,14 @@ import {
   LOADING_STATE_SEND,
   BOOK_DATA_SEND,
   CHOSEN_BOOK_SEND,
+  ADDED_MEMO_SEND,
   HIGHLIGHTS_SEND,
   USER_PROFILE_SEND,
   USER_MEMOS_SEND,
   USER_BOOKS_SEND,
   SELECTED_BOOK_MEMOS_SEND,
+  EDITING_STATE_SEND,
+  MEMO_STATE_SEND,
 } from './ActionTypes';
 
 export function sendLoadingState() {
@@ -68,5 +71,26 @@ export function sendSelectedMemos(memos, chosenBook) {
     type: SELECTED_BOOK_MEMOS_SEND,
     memos,
     chosenBook,
+  };
+}
+
+export function sendAddedMemo(memo) {
+  return {
+    type: ADDED_MEMO_SEND,
+    memo,
+  };
+}
+
+export function sendEditingState(isNew) {
+  return {
+    type: EDITING_STATE_SEND,
+    isNew,
+  };
+}
+
+export function sendMemoState(isPrivate) {
+  return {
+    type: MEMO_STATE_SEND,
+    isPrivate,
   };
 }

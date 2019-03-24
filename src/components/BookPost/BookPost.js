@@ -19,7 +19,6 @@ class BookPost extends Component {
 
   bookClicked(ev) {
     const { userBooks, history } = this.props;
-    debugger;
     const selectedBook = userBooks[ev.currentTarget.id];
 
     history.push({

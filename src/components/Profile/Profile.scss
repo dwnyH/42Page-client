@@ -1,13 +1,37 @@
+.userMemoBackground {
+    height: 100%;
+    width: 100%;
+    background-image: url('https://images.unsplash.com/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=641&q=80');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 0;
+    z-index: -1;
+    position: fixed;
+    // 'https://images.unsplash.com/photo-1542545027185-d07e22d9c49c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+}
 .profileBox {
     display: flex;
     align-items: center;
     flex-direction: column;
+    width: 100vw;
+    // background-color: gray;
+    // height: auto;
+    // background-image: url('https://images.unsplash.com/uploads/1412259799414a71445bd/f7a44cdc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1188&q=80');
+    // background-position: center center;
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    // z-index: 1;
 
     .userImg {
-        width: 100px;
-        height: 100px;
+        width: 50px;
+        height: 50px;
         object-fit: cover;
         border-radius: 50%;
+    }
+
+    .userName {
+        font-size: 13px;
     }
 
     .profile {
@@ -25,13 +49,17 @@
 
     .profileNavi {
         display: flex;
-        width: 90vw;
+        width: 100vw;
         justify-content: space-around;
+        margin: 10px 0px 0px 0px;
+        padding: 10px;
+        background-color: rgba(37, 25, 21, 0.7);
 
         button {
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 15px;
+            color: white;
         }
     }
 }

@@ -1,13 +1,20 @@
 .navigation {
     display: grid;
-    font-size: 30px;
+    color: rgb(233, 219, 195);
+    font-size: 20px;
     padding: 20px 0;
-    background: rgba(0,0,0,0.6);
+    background: rgb(11, 6, 0);
     grid-auto-flow: column;
-    width: 100%;
     justify-content: space-around;
     align-items: flex-end;
     position: fixed;
     bottom: 0;
     left: 0;
+    width: 100vw;
+    z-index: 10;
+}
+
+.navigation:link, .navigation:visited {
+    text-decoration: none;
+    color: rgb(233, 219, 195);
 }

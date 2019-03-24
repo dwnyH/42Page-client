@@ -1,16 +1,29 @@
 .memoPosts {
-    width: 90vw;
+    color: rgb(255, 245, 245);
+    width: 100vw;
+    margin-bottom: 200px;
 
     .memoPost{
-        margin: 20px;
+        margin: 15px;
         padding: 10px;
-        background-color: rgb(247, 242, 236);
-    }
+        background-color: rgba(29, 31, 30, 0.7);
+        box-shadow: 0 10px 6px -6px rgb(31, 31, 30);
 
-    .highlights {
-        margin: 10px;
-        border: 0.2px solid gray;
-        padding: 10px;
-        border-radius: 10px;
+        .highlights {
+            font-family: 'Noto Serif KR', serif;
+            margin: 10px;
+            border: 0.2px solid rgb(206, 206, 206);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .addedMemo {
+            font-family: 'Nanum Gothic', sans-serif;
+            padding: 5px;
+        }
     }
+}
+
+.memoPosts::before {
+    filter: blur(5px);
 }

@@ -18,22 +18,21 @@ class Camera extends Component {
         croppedImageUrl: '',
       },
       croppedImageUrl: '',
-      detectedText: '',
+      // detectedText: '',
     };
 
     this.imageRef = '';
     this.editText = this.editText.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
     this.turnToText = this.turnToText.bind(this);
-    this.memoClick = this.memoClick.bind(this);
   }
 
-  editText(ev) {
-    const edited = ev.target.value;
-    this.setState({
-      detectedText: edited,
-    });
-  }
+  // editText(ev) {
+  //   const edited = ev.target.value;
+  //   this.setState({
+  //     detectedText: edited,
+  //   });
+  // }
 
   fileUpload(ev) {
     const uploaded = ev.target.files;
@@ -108,6 +107,7 @@ class Camera extends Component {
   }
 
   async turnToText() {
+    const { history, addMemoBtnClick } = this.props;
     const { croppedImageUrl } = this.state;
     const url = 'https://vision.googleapis.com/v1';
     const key = 'AIzaSyBg53Ahf1eE4HgSkp_snfM-8Fs5qusTHcw';
@@ -127,20 +127,15 @@ class Camera extends Component {
     });
 
     if (Object.keys(textDetectionResponse.data.responses[0]).length) {
-      this.setState({
-        detectedText: textDetectionResponse.data.responses[0].fullTextAnnotation.text,
-      });
+      const detectedText = textDetectionResponse.data.responses[0].fullTextAnnotation.text;
+      const { sendEditingState } = this.props;
+
+      sendEditingState(true);
+      addMemoBtnClick(detectedText);
+      history.push('/memo');
     } else {
       window.alert('인식된 텍스트가 없습니다. 다시 선택해주세요 :)');
     }
-  }
-
-  memoClick() {
-    const { addMemoBtnClick, history } = this.props;
-    const { detectedText } = this.state;
-
-    addMemoBtnClick(detectedText);
-    history.push('/memo');
   }
 
   render() {
@@ -176,9 +171,7 @@ class Camera extends Component {
             : 'upload file'
         }
         </div>
-        <button className="bookmark" type="submit" onClick={this.turnToText}>bookmark</button>
-        <textarea className="textify" onChange={this.editText} value={detectedText} />
-        <button onClick={this.memoClick} className="memo" type="submit">Add memo</button>
+        <button className="bookmark" type="submit" onClick={this.turnToText}>Highlights</button>
       </div>
     );
   }

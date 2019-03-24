@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './BookPostDetails.scss';
-import 'firebase/auth';
+// import 'firebase/auth';
 
 class BookPostDetails extends Component {
   constructor(props) {
     super(props);
 
     this.trashcanIconClick = this.trashcanIconClick.bind(this);
+    this.penIconClick = this.penIconClick.bind(this);
   }
 
   componentDidMount() {
     const { getSelectedMemos, bookInfo, match } = this.props;
-    debugger;
+
     if (!Object.keys(bookInfo).length) {
       getSelectedMemos(match.params.bookTitle);
     } else if (match.params.bookTitle !== bookInfo.title) {
@@ -19,18 +21,53 @@ class BookPostDetails extends Component {
     }
   }
 
-  trashcanIconClick(ev) {
-    const { deleteBtnClick } = this.props;
-    console.log(ev.currentTarget.id);
-    deleteBtnClick(ev.currentTarget.id);
+  penIconClick(ev) {
+    const {
+      history,
+      memos,
+      sendAddedMemo,
+      sendHighlights,
+      sendEditingState,
+      sendChosenBook,
+    } = this.props;
+    const postId = ev.currentTarget.id.split(':')[0];
+    const index = Number(ev.currentTarget.id.split(':')[1]);
+    const memoInfo = memos[index];
+    const { img, title, author, publisher } = memoInfo.bookInfo;
+
+    sendAddedMemo(memoInfo.addedMemo);
+    sendHighlights(memoInfo.highlights);
+    sendChosenBook(img, title, author, publisher);
+    sendEditingState(false);
+    history.push({
+      pathname: '/memo',
+      data: { postId },
+    });
+  }
+
+  async trashcanIconClick(ev) {
+    // const { deleteBtnClick } = this.props;
+    const postId = ev.currentTarget.id;
+    // deleteBtnClick(ev.currentTarget.id);
+    const token = localStorage.getItem('token');
+    const api = 'http://192.168.0.81:8081';
+    const deleteRequestResponse = await axios({
+      method: 'delete',
+      url: `${api}/posts/${postId}`,
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+    console.log('deleteResponse', deleteRequestResponse);
   }
 
   makeMemoLists() {
-    const { bookInfo, memos } = this.props;
-
-    const memoList = memos.map(memo => (
+    const { memos } = this.props;
+    debugger;
+    const memoList = memos.map((memo, idx) => (
       <div className="memoPost" key={memo._id}>
-        <button className="edit" type="submit" id={memo._id}>
+        <button className="edit" onClick={this.penIconClick} type="submit" id={`${memo._id}:${idx}`}>
           <i className="fas fa-pen-square" />
         </button>
         <button className="delete" onClick={this.trashcanIconClick} type="submit" id={memo._id}>

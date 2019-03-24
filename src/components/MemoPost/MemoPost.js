@@ -28,7 +28,6 @@ class MemoPost extends Component {
   }
 
   debouncedScroll() {
-    debugger;
     const {
       getUserMemos,
       memoSearching,
@@ -71,10 +70,11 @@ class MemoPost extends Component {
   }
 
   render() {
-    debugger;
     const { memos } = this.props;
+
     return (
       <div className="memoPosts">
+        <div className="background" />
         {memos.length
           ? this.makeMemoLists()
           : '저장한 메모가 없습니다. 메모를 만들어보세요 :)'

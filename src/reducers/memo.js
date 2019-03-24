@@ -2,6 +2,9 @@ import { cloneDeep } from 'lodash';
 import {
   CHOSEN_BOOK_SEND,
   HIGHLIGHTS_SEND,
+  ADDED_MEMO_SEND,
+  EDITING_STATE_SEND,
+  MEMO_STATE_SEND,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -12,6 +15,9 @@ const initialState = {
     publisher: '',
   },
   highlights: '',
+  memo: '',
+  isNew: true,
+  isPrivate: false,
 };
 
 export default (state = initialState, action) => {
@@ -31,6 +37,21 @@ export default (state = initialState, action) => {
 
     case HIGHLIGHTS_SEND:
       copiedState.highlights = action.highlights;
+
+      return copiedState;
+
+    case ADDED_MEMO_SEND:
+      copiedState.memo = action.memo;
+
+      return copiedState;
+
+    case EDITING_STATE_SEND:
+      copiedState.isNew = action.isNew;
+
+      return copiedState;
+
+    case MEMO_STATE_SEND:
+      copiedState.isPrivate = action.isPrivate;
 
       return copiedState;
 

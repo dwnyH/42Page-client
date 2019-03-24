@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './Profile.scss';
 import BookPost from '../BookPost/BookPost';
 import MemoPost from '../MemoPost/MemoPost';
@@ -47,6 +47,8 @@ class Profile extends Component {
     } = this.props;
 
     return (
+      <Fragment>
+      <div className="userMemoBackground" />
       <div className="profileBox">
         <div className="profile">
           <div className="userInfo">
@@ -105,6 +107,7 @@ class Profile extends Component {
           )
         }
       </div>
+      </Fragment>
     );
   }
 }
