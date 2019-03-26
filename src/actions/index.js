@@ -10,6 +10,7 @@ import {
   SELECTED_BOOK_MEMOS_SEND,
   EDITING_STATE_SEND,
   MEMO_STATE_SEND,
+  ALL_MEMOS_SEND,
 } from './ActionTypes';
 
 export function sendLoadingState() {
@@ -92,5 +93,12 @@ export function sendMemoState(isPrivate) {
   return {
     type: MEMO_STATE_SEND,
     isPrivate,
+  };
+}
+
+export function sendAllMemos(allMemos) {
+  return {
+    type: ALL_MEMOS_SEND,
+    allMemos,
   };
 }

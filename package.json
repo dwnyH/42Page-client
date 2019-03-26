@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "blueimp-load-image": "^2.20.1",
     "eslint-config-airbnb": "^17.1.0",
     "firebase": "^5.9.0",
     "lodash": "^4.17.11",

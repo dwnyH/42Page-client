@@ -11,7 +11,7 @@ class Navigation extends Component {
     debugger;
     return (
       <div className="navigation">
-        <i className="fas fa-book-open" />
+        <Link to="/home"><i className="fas fa-book-open" /></Link>
         <i className="fas fa-search" />
         <Link to="/camera"><i className="fas fa-camera-retro" /></Link>
         <Link to="/profile"><i className="fas fa-user-circle" /></Link>

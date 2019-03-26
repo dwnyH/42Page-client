@@ -32,13 +32,20 @@ class Memo extends Component {
   }
 
   async onMemoSubmit() {
-    const { memoInfo } = this.props;
+    const { memoInfo, history } = this.props;
+    const { book, highlights, memo, isPrivate } = memoInfo;
+
+    if (!book.title.length || !highlights.length) {
+      return alert('책 또는 하이라이트 정보를 반드시 입력해주세요 :)');
+    }
+
+    let memoSubmitResponse;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.5:8081';
 
     try {
-      const memoSubmitResponse = await axios({
+      memoSubmitResponse = await axios({
         method: 'post',
         url: `${api}/users/${id}/posts`,
         headers: {
@@ -46,10 +53,10 @@ class Memo extends Component {
           'Content-Type': 'application/json; charset=utf-8',
         },
         data: {
-          isPrivate: memoInfo.isPrivate,
-          addedMemo: memoInfo.memo,
-          highlights: memoInfo.highlights,
-          bookInfo: memoInfo.book,
+          isPrivate,
+          addedMemo: memo,
+          highlights,
+          bookInfo: book,
           createdAt: new Date().toISOString(),
         },
       });
@@ -57,16 +64,27 @@ class Memo extends Component {
       console.log(err);
     }
     //메모저장시 팝업 띄워주기
+    if (memoSubmitResponse.status === 201) {
+      history.push('/home');
+    }
   }
 
   async onEditedMemoSubmit() {
-    const { memoInfo, location } = this.props;
+    debugger;
+    let memoSubmitResponse;
+    const { memoInfo, location, history } = this.props;
+    const { book, highlights, memo, isPrivate } = memoInfo;
+
+    if (!book.title.length || !highlights.length) {
+      return alert('책 또는 하이라이트 정보를 반드시 입력해주세요 :)');
+    }
+
     const postId = location.data.postId;
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.5:8081';
 
     try {
-      const memoSubmitResponse = await axios({
+      memoSubmitResponse = await axios({
         method: 'put',
         url: `${api}/posts/${postId}`,
         headers: {
@@ -74,33 +92,19 @@ class Memo extends Component {
           'Content-Type': 'application/json; charset=utf-8',
         },
         data: {
-          isPrivate: memoInfo.isPrivate,
-          addedMemo: memoInfo.memo,
-          highlights: memoInfo.highlights,
-          bookInfo: memoInfo.book,
+          isPrivate,
+          addedMemo: memo,
+          highlights,
+          bookInfo: book,
         },
       });
     } catch (err) {
       console.log(err);
     }
-    //메모저장시 팝업 띄워주기
-  }
-
-  async trashcanIconClick(ev) {
-    // const { deleteBtnClick } = this.props;
-    const postId = ev.currentTarget.id;
-    // deleteBtnClick(ev.currentTarget.id);
-    const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
-    const deleteRequestResponse = await axios({
-      method: 'delete',
-      url: `${api}/posts/${postId}`,
-      headers: {
-        Authorization: `bearer ${token}`,
-        'Content-Type': 'application/json; charset=utf-8',
-      }
-    });
-    console.log('deleteResponse', deleteRequestResponse);
+    //메모저장시 팝업 띄워주
+    if (memoSubmitResponse.status === 201) {
+      history.push('/home');
+    }
   }
 
   privateCheck() {
@@ -118,9 +122,8 @@ class Memo extends Component {
           className="highlights"
           onChange={this.changeHighlightInput}
           defaultValue={
-            memoInfo.highlights.length
-              ? memoInfo.highlights
-              : '먼 나라에 가보지 못했다. 그리고 나는 먼 나라에 가본 적 있는 사람과 터놓고 마음을 나눌 수 없는 이유를 아직도 잘은 모른다. 본 게 많고 들은 게 많고 맛본 게 많고, 하여 간 느낀 게 많은 사람은 그만큼이나 폭넓은 사유를 지니 게 된다는데, 나는 접한 게 많지 않아 이렇게도 쉽게 슬퍼 하고 기뻐하는 걸 반복하는 걸까. 그저 아는 게 많지 않아 서 그들과 어울리지 못하는 건지도 모르겠다 줄 짧은 추 의 진자운동을 볼 땐 그게 참 경박하면서도 서글퍼 보였'
+            memoInfo.highlights
+            && memoInfo.highlights
           }
         />
         {/* </input> */}
@@ -135,10 +138,10 @@ class Memo extends Component {
         <textarea
           className="memoTextarea"
           onChange={this.changeMemoInput}
+          placeholder="선택한 문장에 대한 메모를 남겨보세요 :)"
           defaultValue={
             memoInfo.isNew
-              ? '선택한 문장에 대한 메모를 남겨보세요 :)'
-              : memoInfo.memo
+              && memoInfo.memo
           }
         />
         <div className="private">

@@ -47,6 +47,9 @@ class App extends Component {
       sendEditingState,
       memoInfo,
       sendMemoState,
+      getAllMemos,
+      allMemosSearching,
+      allMemos,
     } = this.props;
 
     return (
@@ -67,8 +70,25 @@ class App extends Component {
                 !token ? (
                   <Redirect from="/" to="/login" />
                 ) : (
-                  <Home {...props} />
+                  <Home
+                    {...props}
+                    getAllMemos={getAllMemos}
+                    allMemosSearching={allMemosSearching}
+                    allMemos={allMemos}
+                  />
                 )
+              )}
+            />
+            <Route
+              exact
+              path="/home"
+              render={props => (
+                <Home
+                  {...props}
+                  getAllMemos={getAllMemos}
+                  allMemosSearching={allMemosSearching}
+                  allMemos={allMemos}
+                />
               )}
             />
             <Route
@@ -158,23 +178,33 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  debugger;
   let userBookPosts;
-  const convertPostDate = (date) => {
-    let convertedDate;
-    if (moment(date).format('YYYY') === moment().format('YYYY')) {
-      if (moment(date).format('MMMM') === moment().format('MMMM')) {
-        convertedDate = moment(date).fromNow();
+  const convertPostDate = (ISOdate) => {
+    debugger;
+    if (moment(ISOdate)._isValid) {
+      let convertedDate;
+      const date = moment(ISOdate);
+
+      if (moment(date).format('YYYY') === moment().format('YYYY')) {
+        if (moment(date).format('MMMM') === moment().format('MMMM')) {
+          convertedDate = moment(date).fromNow();
+        } else {
+          convertedDate = moment(date).format('MMMM do');
+        }
       } else {
-        convertedDate = moment(date).format('MMMM do');
+        convertedDate = moment(date).format('YYYY MMMM Do');
       }
-    } else {
-      convertedDate = moment(date).format('YYYY MMMM Do');
+      return convertedDate;
     }
-    return convertedDate;
+
+    return ISOdate;
   };
 
   state.post.memos.forEach((memo) => {
+    memo.createdAt = convertPostDate(memo.createdAt);
+  });
+
+  state.post.allMemos.forEach((memo) => {
     memo.createdAt = convertPostDate(memo.createdAt);
   });
 
@@ -183,7 +213,6 @@ const mapStateToProps = (state) => {
   });
 
   if (state.post.books.length) {
-    debugger;
     userBookPosts = state.post.books.map(book => JSON.parse(book));
   } else {
     userBookPosts = state.post.books;
@@ -201,6 +230,8 @@ const mapStateToProps = (state) => {
     memosWithBook: state.post.chosenBook.selectedBookMemos,
     postInfo: state.post,
     memoInfo: state.memo,
+    allMemos: state.post.allMemos,
+    allMemosSearching: state.post.allMemosSearching,
   };
 };
 
@@ -240,7 +271,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserBooks() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.5:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/books`,
@@ -255,7 +286,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserProfile() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.5:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -264,13 +295,27 @@ const mapDispatchToProps = dispatch => ({
         'Content-Type': 'application/json; charset=utf-8',
       },
     });
-    debugger;
+
     dispatch(actions.sendUserProfile(userInfoResponse.data));
+  },
+  async getAllMemos(page) {
+    const token = localStorage.getItem('token');
+    const api = 'http://172.30.1.5:8081';
+    const allMemosResponse = await axios({
+      method: 'get',
+      url: `${api}/posts/memos/${page}`,
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+
+    dispatch(actions.sendAllMemos(allMemosResponse.data));
   },
   async getUserMemos(page) {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.5:8081';
     const userMemosResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/memos/${page}`,
@@ -283,11 +328,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.sendUserMemos(userMemosResponse.data));
   },
   async getSelectedMemos(bookTitle) {
-    debugger;
     let memoRequestResponse;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.5:8081';
     try {
       memoRequestResponse = await axios({
         method: 'get',
@@ -300,14 +344,8 @@ const mapDispatchToProps = dispatch => ({
     } catch (err) {
       console.log(err);
     }
-    debugger;
 
     dispatch(actions.sendSelectedMemos(memoRequestResponse.data.memos, memoRequestResponse.data.chosenBook));
-
-    // this.props.history.push({
-    //   pathname: `./books/${bookInfo.title}`,
-    //   // bookInfo: selectedBook,
-    // });
   },
 });
 

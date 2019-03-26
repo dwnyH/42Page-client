@@ -39,6 +39,7 @@ class BookPostDetails extends Component {
     sendHighlights(memoInfo.highlights);
     sendChosenBook(img, title, author, publisher);
     sendEditingState(false);
+
     history.push({
       pathname: '/memo',
       data: { postId },
@@ -46,20 +47,30 @@ class BookPostDetails extends Component {
   }
 
   async trashcanIconClick(ev) {
-    // const { deleteBtnClick } = this.props;
+    let deleteRequestResponse;
+    const { history } = this.props;
     const postId = ev.currentTarget.id;
     // deleteBtnClick(ev.currentTarget.id);
     const token = localStorage.getItem('token');
     const api = 'http://192.168.0.81:8081';
-    const deleteRequestResponse = await axios({
-      method: 'delete',
-      url: `${api}/posts/${postId}`,
-      headers: {
-        Authorization: `bearer ${token}`,
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    });
+    try {
+      deleteRequestResponse = await axios({
+        method: 'delete',
+        url: `${api}/posts/${postId}`,
+        headers: {
+          Authorization: `bearer ${token}`,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
     console.log('deleteResponse', deleteRequestResponse);
+
+    if (deleteRequestResponse.status === 204) {
+      history.push('/home');
+    }
   }
 
   makeMemoLists() {

@@ -4,6 +4,7 @@ import {
   USER_MEMOS_SEND,
   USER_BOOKS_SEND,
   SELECTED_BOOK_MEMOS_SEND,
+  ALL_MEMOS_SEND,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -15,11 +16,13 @@ const initialState = {
   },
   books: [],
   memos: [],
+  allMemos: [],
   chosenBook: {
     bookInfo: {},
     selectedBookMemos: [],
   },
   memoSearching: true,
+  allMemosSearching: true,
 };
 
 export default (state = initialState, action) => {
@@ -52,6 +55,19 @@ export default (state = initialState, action) => {
     case SELECTED_BOOK_MEMOS_SEND:
       copiedState.chosenBook.bookInfo = action.chosenBook;
       copiedState.chosenBook.selectedBookMemos = action.memos;
+
+      return copiedState;
+
+    case ALL_MEMOS_SEND:
+      if (action.allMemos.length) {
+        if (!copiedState.allMemos.length) {
+          copiedState.allMemos = action.allMemos;
+        } else {
+          copiedState.allMemos = [...copiedState.allMemos, ...action.allMemos];
+        }
+      } else {
+        copiedState.allMemosSearching = false;
+      }
 
       return copiedState;
 

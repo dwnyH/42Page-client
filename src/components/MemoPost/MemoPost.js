@@ -36,7 +36,6 @@ class MemoPost extends Component {
     if (memoSearching) {
       const { memoPage } = this.state;
       if ((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 200)) {
-        debugger;
         this.setState(prevState => ({
           memoPage: prevState.memoPage + 1,
         }), getUserMemos.bind(this, memoPage + 1));
@@ -51,17 +50,19 @@ class MemoPost extends Component {
         <div className="highlights">
           {memo.highlights}
         </div>
-        <div className="bookInfo">
-          {memo.bookInfo.title}
-        </div>
-        <div className="addedMemo">
-          {memo.addedMemo}
-        </div>
-        <div className="createdAt">
-          {memo.createdAt}
-        </div>
-        <div className="user">
-          {profile.name}
+        <div className="memoInfo">
+          <div className="bookInfo">
+            {memo.bookInfo.title}
+          </div>
+          <div className="addedMemo">
+            {memo.addedMemo}
+          </div>
+          <div className="createdAt">
+            {memo.createdAt}
+          </div>
+          <div className="user">
+            {profile.name}
+          </div>
         </div>
       </div>
     ));
@@ -74,7 +75,7 @@ class MemoPost extends Component {
 
     return (
       <div className="memoPosts">
-        <div className="background" />
+        {/* <div className="background" /> */}
         {memos.length
           ? this.makeMemoLists()
           : '저장한 메모가 없습니다. 메모를 만들어보세요 :)'

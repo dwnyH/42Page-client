@@ -88,6 +88,7 @@ class Profile extends Component {
             <i className="fas fa-book-open" />
           </button>
         </div>
+      </div>
         {memoPage
           ? (
             <MemoPost
@@ -106,7 +107,6 @@ class Profile extends Component {
             />
           )
         }
-      </div>
       </Fragment>
     );
   }

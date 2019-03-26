@@ -4,6 +4,7 @@ import './Camera.scss';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import axios from 'axios';
+import * as loadImage from 'blueimp-load-image';
 
 class Camera extends Component {
   constructor(props) {
@@ -18,11 +19,9 @@ class Camera extends Component {
         croppedImageUrl: '',
       },
       croppedImageUrl: '',
-      // detectedText: '',
     };
-
+    this.example = '';
     this.imageRef = '';
-    this.editText = this.editText.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
     this.turnToText = this.turnToText.bind(this);
   }
@@ -35,11 +34,21 @@ class Camera extends Component {
   // }
 
   fileUpload(ev) {
+    debugger;
     const uploaded = ev.target.files;
+    // console.log(window.URL.createObjectURL(uploaded[0]));
     if (uploaded && uploaded.length) {
-      const URL = window.URL || window.webkitURL;
-      const imgURL = URL.createObjectURL(uploaded[0]);
-      this.setState({ src: imgURL });
+      // const URL = window.URL || window.webkitURL;
+      // const imgURL = URL.createObjectURL(uploaded[0]);
+      loadImage(uploaded[0], (canvas) => {
+        debugger;
+        // const a = canvas.toBlob();
+        // console.log(a);
+        this.setState({
+          src: canvas.toDataURL(),
+        });
+      }, { maxWidth: '100%', orientation: true });
+      // this.setState({ src: imgURL });
     }
   }
 
@@ -76,6 +85,8 @@ class Camera extends Component {
     );
 
     return new Promise((resolve) => {
+      debugger;
+      this.image = canvas;
       canvas.toBlob((blob) => {
         blob.name = fileName;
         resolve(blob);
@@ -93,7 +104,7 @@ class Camera extends Component {
         let imgData;
         const reader = new FileReader();
         reader.onloadend = () => {
-          imgData = reader.result.split(",")[1];
+          imgData = reader.result.split(',')[1];
           this.setState({
             croppedImageUrl: imgData,
           });
@@ -139,7 +150,7 @@ class Camera extends Component {
   }
 
   render() {
-    const { src, crop, detectedText } = this.state;
+    const { src, crop, croppedImageUrl } = this.state;
     return (
       <div className="imgUpload">
         <div className="filebox">
