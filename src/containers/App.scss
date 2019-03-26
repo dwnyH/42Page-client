@@ -1,8 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
 
 #root {
-  height: 100vh;
-  padding: 0 0 200px;
+  height: 100%;
+  padding: 0 0 120px;
 }
