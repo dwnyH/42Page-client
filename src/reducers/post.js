@@ -5,6 +5,7 @@ import {
   USER_BOOKS_SEND,
   SELECTED_BOOK_MEMOS_SEND,
   ALL_MEMOS_SEND,
+  USER_KEYWORDS_SEND,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   },
   books: [],
   memos: [],
+  keywords: {},
   allMemos: [],
   chosenBook: {
     bookInfo: {},
@@ -68,6 +70,12 @@ export default (state = initialState, action) => {
       } else {
         copiedState.allMemosSearching = false;
       }
+
+      return copiedState;
+
+    case USER_KEYWORDS_SEND:
+      debugger;
+      copiedState.keywords = action.keywords;
 
       return copiedState;
 

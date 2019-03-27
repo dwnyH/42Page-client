@@ -3,14 +3,14 @@
     font-family: 'Noto Serif KR', serif;
 
     .memoPost{
-        margin: 15px;
+        margin: 30px 15px;;
         padding: 10px;
-        background: linear-gradient(90deg, #1E224F, #191D42);
+        background: linear-gradient(90deg, #252b64, #191D42);
         color: #E4C3D3;
         box-shadow: 2px 2px 10px rgba(0,0,0,.2);
 
         &:nth-child(2) {
-            background: linear-gradient(90deg, #015C79, #014C63);
+            background: linear-gradient(90deg, #006e91, #014C63);
             color: #ffffff;
         }
 
@@ -20,7 +20,7 @@
         }
 
         &:nth-child(4) {
-            background: linear-gradient(90deg, #CCC5A8, #B6B096);
+            background: linear-gradient(90deg, #e5dbb3, #B6B096);
             color: #191D42;
         }
 
@@ -30,7 +30,7 @@
         }
 
         &:nth-child(6) {
-            background: linear-gradient(90deg, #BDC3CF, #B0B7C1);
+            background: linear-gradient(90deg, #cccfd6, #B0B7C1);
             color: #B77699;
         }
 
@@ -40,6 +40,7 @@
             padding: 20px;
             border-radius: 10px;
             line-height: 170%;
+            font-weight: 600;
         }
 
         .memoInfo {
@@ -50,11 +51,12 @@
             }
 
             .bookInfo, .addedMemo, .createdAt {
-                padding-bottom: 10px;
+                padding-top: 5px;
             }
 
             .bookInfo {
-                font-size: 30px;
+                font-size: 28px;
+                line-height: 1.2;
             }
         }
     }

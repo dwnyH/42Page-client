@@ -15,13 +15,6 @@
     align-items: center;
     flex-direction: column;
     width: 100vw;
-    // background-color: gray;
-    // height: auto;
-    // background-image: url('https://images.unsplash.com/uploads/1412259799414a71445bd/f7a44cdc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1188&q=80');
-    // background-position: center center;
-    // background-repeat: no-repeat;
-    // background-size: cover;
-    // z-index: 1;
 
     .userImg {
         width: 50px;
@@ -41,7 +34,7 @@
         width: 90vw;
         grid-template-columns: 1fr 3fr;
 
-        .postInfo {
+        .keywordInfo {
             display: flex;
             justify-content: space-around;
         }

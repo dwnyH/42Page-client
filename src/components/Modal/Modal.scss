@@ -1,0 +1,26 @@
+.modalBox {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    overflow: hidden;
+
+    .modalContents {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80vw;
+        height: 40vh;
+        background: white;
+        color: black;
+
+        canvas {
+            width: 100%;
+            height: auto;
+        }
+    }
+}

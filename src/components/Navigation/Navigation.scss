@@ -1,9 +1,8 @@
 .navigation {
     display: grid;
-    color: rgb(233, 219, 195);
     font-size: 20px;
     padding: 20px 0;
-    background: rgb(11, 6, 0);
+    background: #878788;
     grid-auto-flow: column;
     justify-content: space-around;
     align-items: flex-end;
@@ -16,5 +15,5 @@
 
 .navigation a:link, .navigation a:visited {
     text-decoration: none;
-    color: rgb(233, 219, 195);
+    color: #272623;
 }

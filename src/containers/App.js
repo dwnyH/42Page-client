@@ -50,6 +50,8 @@ class App extends Component {
       getAllMemos,
       allMemosSearching,
       allMemos,
+      getUserKeywords,
+      postInfo,
     } = this.props;
 
     return (
@@ -140,6 +142,7 @@ class App extends Component {
               render={props => (
                 <Profile
                   {...props}
+                  postInfo={postInfo}
                   getUserProfile={getUserProfile}
                   profile={profile}
                   getUserMemos={getUserMemos}
@@ -147,6 +150,7 @@ class App extends Component {
                   memoSearching={memoSearching}
                   getUserBooks={getUserBooks}
                   userBooks={userBooks}
+                  getUserKeywords={getUserKeywords}
                 />
               )}
             />
@@ -180,7 +184,6 @@ class App extends Component {
 const mapStateToProps = (state) => {
   let userBookPosts;
   const convertPostDate = (ISOdate) => {
-    debugger;
     if (moment(ISOdate)._isValid) {
       let convertedDate;
       const date = moment(ISOdate);
@@ -271,7 +274,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserBooks() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.5:8081';
+    const api = 'http://192.168.0.81:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/books`,
@@ -283,10 +286,31 @@ const mapDispatchToProps = dispatch => ({
 
     dispatch(actions.sendUserBooks(userInfoResponse.data));
   },
+  async getUserKeywords() {
+    let userKeywordsResponse;
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    const api = 'http://192.168.0.81:8081';
+
+    try {
+      userKeywordsResponse = await axios({
+        method: 'get',
+        url: `${api}/users/${id}/keywords`,
+        headers: {
+          Authorization: `bearer ${token}`,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    console.log(userKeywordsResponse);
+    dispatch(actions.sendUserKeywords(userKeywordsResponse.data));
+  },
   async getUserProfile() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.5:8081';
+    const api = 'http://192.168.0.81:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -300,7 +324,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getAllMemos(page) {
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.5:8081';
+    const api = 'http://192.168.0.81:8081';
     const allMemosResponse = await axios({
       method: 'get',
       url: `${api}/posts/memos/${page}`,
@@ -315,7 +339,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserMemos(page) {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.5:8081';
+    const api = 'http://192.168.0.81:8081';
     const userMemosResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/memos/${page}`,
@@ -331,7 +355,7 @@ const mapDispatchToProps = dispatch => ({
     let memoRequestResponse;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.5:8081';
+    const api = 'http://192.168.0.81:8081';
     try {
       memoRequestResponse = await axios({
         method: 'get',

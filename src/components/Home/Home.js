@@ -12,6 +12,7 @@ class Home extends Component {
     };
     this.debouncedScroll = debounce(this.debouncedScroll.bind(this), 300);
     this.makeAllMemoLists = this.makeAllMemoLists.bind(this);
+    this.highlightsHover = this.highlightsHover.bind(this);
   }
 
   componentDidMount() {
@@ -48,27 +49,31 @@ class Home extends Component {
     }
   }
 
+  highlightsHover(ev) {
+
+  }
+
   makeAllMemoLists() {
     debugger;
     const { allMemos } = this.props;
     const memoLists = allMemos.map(memo => (
       <div className="memoPost" key={memo._id}>
         <div className="userInfo">
-          <img src={memo.user_id.photoURL} alt="profileImage"/>
+          <img src={memo.user_id.photoURL} alt="profileImage" />
           <div className="user">
             {memo.user_id.name}
           </div>
         </div>
-        <div className="highlights">
+        <div className="highlights" onMouseOver={this.highlightsOver} >
           {memo.highlights}
         </div>
         <div className="memoInfo">
           <div className="bookInfo">
             {memo.bookInfo.title}
           </div>
-          <div className="addedMemo">
+          {/* <div className="addedMemo">
             {memo.addedMemo}
-          </div>
+          </div> */}
           <div className="createdAt">
             {memo.createdAt}
           </div>
@@ -85,6 +90,7 @@ class Home extends Component {
 
     return (
       <div className="memoPosts">
+        <div className="about">home</div>
         {/* <div className="userMemoBackground" /> */}
         {allMemos.length
           ? this.makeAllMemoLists()

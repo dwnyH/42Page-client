@@ -45,6 +45,7 @@ class BookPost extends Component {
   }
 
   render() {
+    debugger;
     const { userBooks } = this.props;
 
     return (

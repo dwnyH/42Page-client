@@ -42,7 +42,7 @@ class Memo extends Component {
     let memoSubmitResponse;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.5:8081';
+    const api = 'http://172.30.1.53:8081';
 
     try {
       memoSubmitResponse = await axios({
@@ -81,7 +81,7 @@ class Memo extends Component {
 
     const postId = location.data.postId;
     const token = localStorage.getItem('token');
-    const api = 'http://172.30.1.5:8081';
+    const api = 'http://172.30.1.53:8081';
 
     try {
       memoSubmitResponse = await axios({
@@ -114,6 +114,7 @@ class Memo extends Component {
   }
 
   render() {
+    debugger;
     const { memoInfo } = this.props;
 
     return (
@@ -140,7 +141,7 @@ class Memo extends Component {
           onChange={this.changeMemoInput}
           placeholder="선택한 문장에 대한 메모를 남겨보세요 :)"
           defaultValue={
-            memoInfo.isNew
+            !memoInfo.isNew
               && memoInfo.memo
           }
         />

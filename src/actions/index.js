@@ -11,6 +11,7 @@ import {
   EDITING_STATE_SEND,
   MEMO_STATE_SEND,
   ALL_MEMOS_SEND,
+  USER_KEYWORDS_SEND,
 } from './ActionTypes';
 
 export function sendLoadingState() {
@@ -100,5 +101,12 @@ export function sendAllMemos(allMemos) {
   return {
     type: ALL_MEMOS_SEND,
     allMemos,
+  };
+}
+
+export function sendUserKeywords(keywords) {
+  return {
+    type: USER_KEYWORDS_SEND,
+    keywords,
   };
 }

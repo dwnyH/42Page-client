@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import './Profile.scss';
+import Modal from '../Modal/Modal';
 import BookPost from '../BookPost/BookPost';
 import MemoPost from '../MemoPost/MemoPost';
 
@@ -9,8 +10,11 @@ class Profile extends Component {
 
     this.state = {
       memoPage: true,
+      isModalOpen: false,
     };
     this.postingChange = this.postingChange.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   async componentDidMount() {
@@ -33,9 +37,22 @@ class Profile extends Component {
     }
   }
 
+  closeModal() {
+    this.setState({
+      isModalOpen: false,
+    });
+  }
+
+  showModal() {
+    this.setState({
+      isModalOpen: true,
+    });
+  }
+
   render() {
-    const { memoPage } = this.state;
+    const { memoPage, isModalOpen } = this.state;
     const {
+      postInfo,
       profile,
       getUserMemos,
       memos,
@@ -44,32 +61,37 @@ class Profile extends Component {
       memoSearching,
       deleteBtnClick,
       history,
+      getUserKeywords,
     } = this.props;
 
     return (
       <Fragment>
-      <div className="userMemoBackground" />
-      <div className="profileBox">
+        {
+          isModalOpen
+            && (
+              <Modal
+                keywords={postInfo.keywords}
+                backgroundClick={this.closeModal}
+                getUserKeywords={getUserKeywords}
+              />
+            )
+        }
+        <div className="profileBox">
         <div className="profile">
           <div className="userInfo">
             <img
               className="userImg"
               src={profile.imgSrc}
-              alt="프로필사진"
+              alt="profileImg"
             />
             <div className="userName">
               {profile.name}
             </div>
           </div>
-          <div className="postInfo">
-            <div className="postTotal">
-              <div className="title">memo</div>
-              <div className="total">{profile.memoTotal}</div>
-            </div>
-            <div className="bookTotal">
-              <div className="title">book</div>
-              <div className="total">{profile.bookTotal}</div>
-            </div>
+          <div className="keywordInfo">
+            <button className="keywordBtn" type="button" onClick={this.showModal}>
+              {profile.name.split(' ')[0]}'s keyword
+            </button>
           </div>
         </div>
         <div className="profileNavi">
