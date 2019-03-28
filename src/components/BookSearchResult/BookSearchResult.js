@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { debounce } from 'lodash';
 import './BookSearchResult.scss';
-import 'firebase/auth';
 
 class BookSearchResult extends Component {
   constructor(props) {

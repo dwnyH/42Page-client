@@ -8,6 +8,7 @@ import {
   USER_KEYWORDS_SEND,
   UPDATE,
   SEND_POST_ID,
+  SEND_KEYWORD_RESULTS,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -30,6 +31,7 @@ const initialState = {
   memoSearching: true,
   allMemosSearching: true,
   postUpdating: false,
+  keywordSearchResults: [],
 };
 
 export default (state = initialState, action) => {
@@ -98,6 +100,11 @@ export default (state = initialState, action) => {
 
     case SEND_POST_ID:
       copiedState.postId = action.postId;
+
+      return copiedState;
+
+    case SEND_KEYWORD_RESULTS:
+      copiedState.keywordSearchResults = action.users;
 
       return copiedState;
 

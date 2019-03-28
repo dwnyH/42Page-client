@@ -46,7 +46,10 @@ class BookSearch extends Component {
   }
 
   inputBook() {
-    const { bookClick, history } = this.props;
+    const {
+      bookClick,
+      history
+    } = this.props;
     const { writtenInput } = this.state;
 
     if (writtenInput.length) {
@@ -66,7 +69,6 @@ class BookSearch extends Component {
   }
 
   writingBookTitle(ev) {
-    debugger;
     const input = ev.target.value;
 
     this.setState({
@@ -75,7 +77,12 @@ class BookSearch extends Component {
   }
 
   render() {
-    const { searchBtnClick, books, bookClick, history } = this.props;
+    const {
+      searchBtnClick,
+      books,
+      bookClick,
+      history
+    } = this.props;
     const { isLastSearchPage, page, keyword } = books;
 
     return (

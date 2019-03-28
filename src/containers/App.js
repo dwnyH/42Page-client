@@ -9,6 +9,7 @@ import Login from '../components/Login/Login';
 import Camera from '../components/Camera/Camera';
 import BookSearch from '../components/BookSearch/BookSearch';
 import Memo from '../components/Memo/Memo';
+import KeywordSearch from '../components/KeywordSearch/KeywordSearch';
 import Profile from '../components/Profile/Profile';
 import BookPostDetails from '../components/BookPostDetails/BookPostDetails';
 import * as actions from '../actions';
@@ -24,14 +25,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { sendLoadingState, searchStop } = this.props;
+    const { sendLoadingState } = this.props;
     sendLoadingState();
   }
 
   async onEditedMemoSubmit(isPrivate, memo, highlights, book, postId) {
-    debugger;
-    let memoSubmitResponse;
     const { history } = this.props;
+    let memoSubmitResponse;
 
     if (!book.title.length || !highlights.length) {
       return alert('책 또는 하이라이트 정보를 반드시 입력해주세요 :)');
@@ -60,7 +60,6 @@ class App extends Component {
     }
 
     if (memoSubmitResponse.status === 201) {
-      debugger;
       history.push({
         pathname: '/home',
         data: {
@@ -71,7 +70,6 @@ class App extends Component {
   }
 
   async onMemoSubmit(isPrivate, memo, highlights, book) {
-    debugger;
     if (!book.title.length || !highlights.length) {
       return alert('책 또는 하이라이트 정보를 반드시 입력해주세요 :)');
     }
@@ -101,9 +99,8 @@ class App extends Component {
     } catch (err) {
       console.log(err);
     }
-    //메모저장시 팝업 띄워주기
+
     if (memoSubmitResponse.status === 201) {
-      debugger;
       history.push({
         pathname: '/home',
         data: {
@@ -175,6 +172,8 @@ class App extends Component {
       postId,
       sendPostId,
       postUserId,
+      getKeywordsRelatedUsers,
+      keywordSearchResults,
     } = this.props;
 
     return (
@@ -220,6 +219,17 @@ class App extends Component {
               path="/login"
               render={props => (
                 <Login {...props} />
+              )}
+            />
+            <Route
+              exact
+              path="/keywordSearch"
+              render={props => (
+                <KeywordSearch
+                  {...props}
+                  onSubmit={getKeywordsRelatedUsers}
+                  keywordSearchResults={keywordSearchResults}
+                />
               )}
             />
             <Route
@@ -333,6 +343,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   let userBookPosts;
+  let requiredInformation;
   const convertPostDate = (ISOdate) => {
     if (moment(ISOdate)._isValid) {
       let convertedDate;
@@ -371,6 +382,14 @@ const mapStateToProps = (state) => {
     userBookPosts = state.post.books;
   }
 
+  if (Object.keys(state.post.keywordSearchResults)) {
+    requiredInformation = state.post.keywordSearchResults.map(user => ({
+      name: user.name,
+      _id: user._id,
+      photoURL: user.photoURL,
+    }));
+  }
+
   return {
     loading: state.pageState.initiate,
     update: state.post.postUpdating,
@@ -388,6 +407,7 @@ const mapStateToProps = (state) => {
     allMemos: state.post.allMemos,
     allMemosSearching: state.post.allMemosSearching,
     postUserId: state.post.postUserId,
+    keywordSearchResults: requiredInformation,
   };
 };
 
@@ -427,8 +447,23 @@ const mapDispatchToProps = dispatch => ({
   sendPostId(postId) {
     dispatch(actions.sendPostId(postId));
   },
+  async getKeywordsRelatedUsers(keyword) {
+    const token = localStorage.getItem('token');
+    const api = 'http://172.30.1.8:8081';
+
+    const keywordSearchResponse = await axios({
+      method: 'get',
+      url: `${api}/keywords/${keyword}/users`,
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+    debugger;
+    console.log(keywordSearchResponse);
+    dispatch(actions.sendKeywordResults(keywordSearchResponse.data));
+  },
   async getUserBooks(updating, id) {
-    // let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const api = 'http://172.30.1.8:8081';
 
@@ -445,7 +480,6 @@ const mapDispatchToProps = dispatch => ({
   },
   async getUserKeywords(id) {
     let userKeywordsResponse;
-    // const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const api = 'http://172.30.1.8:8081';
 
@@ -465,14 +499,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.sendUserKeywords(userKeywordsResponse.data));
   },
   async getUserProfile(id) {
-    // let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const api = 'http://172.30.1.8:8081';
-
-    // if (userId) {
-    //   id = userId;
-    // }
-
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -499,7 +527,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.sendAllMemos(allMemosResponse.data, isUpdate));
   },
   async getUserMemos(page, userId) {
-    debugger;
     let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const api = 'http://172.30.1.8:8081';
@@ -521,13 +548,9 @@ const mapDispatchToProps = dispatch => ({
   },
   async getSelectedMemos(bookTitle, userId) {
     let memoRequestResponse;
-    // let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const api = 'http://172.30.1.8:8081';
 
-    // if (userId) {
-    //   id = userId;
-    // }
     try {
       memoRequestResponse = await axios({
         method: 'get',

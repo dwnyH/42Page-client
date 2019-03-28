@@ -14,3 +14,4 @@ export const ALL_MEMOS_SEND = 'ALL_MEMOS_SEND';
 export const USER_KEYWORDS_SEND = 'USER_KEYWORDS_SEND';
 export const UPDATE = 'UPDATE';
 export const SEND_POST_ID = 'SEND_POST_ID';
+export const SEND_KEYWORD_RESULTS = 'SEND_KEYWORD_RESULTS';

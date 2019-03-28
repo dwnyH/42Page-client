@@ -14,6 +14,7 @@ import {
   USER_KEYWORDS_SEND,
   UPDATE,
   SEND_POST_ID,
+  SEND_KEYWORD_RESULTS,
 } from './ActionTypes';
 
 export function sendLoadingState() {
@@ -128,5 +129,12 @@ export function sendPostId(postId) {
   return {
     type: SEND_POST_ID,
     postId,
+  };
+}
+
+export function sendKeywordResults(users) {
+  return {
+    type: SEND_KEYWORD_RESULTS,
+    users,
   };
 }
