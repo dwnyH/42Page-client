@@ -6,6 +6,8 @@ import {
   SELECTED_BOOK_MEMOS_SEND,
   ALL_MEMOS_SEND,
   USER_KEYWORDS_SEND,
+  UPDATE,
+  SEND_POST_ID,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -23,8 +25,11 @@ const initialState = {
     bookInfo: {},
     selectedBookMemos: [],
   },
+  postUserId: '',
+  postId: '',
   memoSearching: true,
   allMemosSearching: true,
+  postUpdating: false,
 };
 
 export default (state = initialState, action) => {
@@ -33,13 +38,17 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case USER_PROFILE_SEND:
       copiedState.profile = action.profile;
+      copiedState.postUserId = action.id;
 
       return copiedState;
 
     case USER_MEMOS_SEND:
       if (action.memos.length) {
-        if (!copiedState.memos.length) {
+        debugger;
+        if (!copiedState.memos.length || copiedState.postUpdating || action.page === 1) {
+          debugger;
           copiedState.memos = action.memos;
+          copiedState.postUpdating = false;
         } else {
           copiedState.memos = [...copiedState.memos, ...action.memos];
         }
@@ -62,9 +71,12 @@ export default (state = initialState, action) => {
 
     case ALL_MEMOS_SEND:
       if (action.allMemos.length) {
-        if (!copiedState.allMemos.length) {
+        if (!copiedState.allMemos.length || action.isUpdate) {
+          debugger;
           copiedState.allMemos = action.allMemos;
+          copiedState.postUpdating = action.isUpdate;
         } else {
+          debugger;
           copiedState.allMemos = [...copiedState.allMemos, ...action.allMemos];
         }
       } else {
@@ -74,8 +86,18 @@ export default (state = initialState, action) => {
       return copiedState;
 
     case USER_KEYWORDS_SEND:
-      debugger;
       copiedState.keywords = action.keywords;
+
+      return copiedState;
+
+    case UPDATE:
+      debugger;
+      copiedState.postUpdating = action.update;
+
+      return copiedState;
+
+    case SEND_POST_ID:
+      copiedState.postId = action.postId;
 
       return copiedState;
 

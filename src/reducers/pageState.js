@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   initiate: true,
+  update: false,
 };
 
 export default (state = initialState, action) => {

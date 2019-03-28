@@ -18,11 +18,25 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
-    const { profile, getUserProfile } = this.props;
+    debugger;
+    const { getUserProfile, match } = this.props;
+    let id;
 
-    if (!profile.name.length) {
-      getUserProfile();
+    if (match.params.user_id) {
+      id = match.params.user_id;
+    } else {
+      id = localStorage.getItem('id');
     }
+
+    getUserProfile(id);
+
+    // if (history.location.data) {
+    //   debugger;
+    //   getUserProfile(history.location.data.userId);
+    //   history.location.data = null;
+    // } else {
+    //   getUserProfile();
+    // }
   }
 
   postingChange(ev) {
@@ -62,7 +76,18 @@ class Profile extends Component {
       deleteBtnClick,
       history,
       getUserKeywords,
+      update,
+      postUserId,
+      match
     } = this.props;
+    let id;
+
+    if (match.params.user_id) {
+      id = match.params.user_id;
+    } else {
+      id = localStorage.getItem('id');
+    }
+
 
     return (
       <Fragment>
@@ -73,52 +98,56 @@ class Profile extends Component {
                 keywords={postInfo.keywords}
                 backgroundClick={this.closeModal}
                 getUserKeywords={getUserKeywords}
+                userId={id}
               />
             )
         }
         <div className="profileBox">
-        <div className="profile">
-          <div className="userInfo">
-            <img
-              className="userImg"
-              src={profile.imgSrc}
-              alt="profileImg"
-            />
-            <div className="userName">
-              {profile.name}
+          <div className="profile">
+            <div className="userInfo">
+              <img
+                className="userImg"
+                src={profile.imgSrc}
+                alt="profileImg"
+              />
+              <div className="userName">
+                {profile.name}
+              </div>
+            </div>
+            <div className="keywordInfo">
+              <button className="keywordBtn" type="button" onClick={this.showModal}>
+                {profile.name.split(' ')[0]}'s keyword
+              </button>
             </div>
           </div>
-          <div className="keywordInfo">
-            <button className="keywordBtn" type="button" onClick={this.showModal}>
-              {profile.name.split(' ')[0]}'s keyword
+          <div className="profileNavi">
+            <button
+              type="submit"
+              className="memoButton"
+              onClick={this.postingChange}
+            >
+              <i className="fas fa-highlighter" />
+            </button>
+            <button
+              type="submit"
+              className="bookButton"
+              onClick={this.postingChange}
+            >
+              <i className="fas fa-book-open" />
             </button>
           </div>
         </div>
-        <div className="profileNavi">
-          <button
-            type="submit"
-            className="memoButton"
-            onClick={this.postingChange}
-          >
-            <i className="fas fa-highlighter" />
-          </button>
-          <button
-            type="submit"
-            className="bookButton"
-            onClick={this.postingChange}
-          >
-            <i className="fas fa-book-open" />
-          </button>
-        </div>
-      </div>
         {memoPage
           ? (
             <MemoPost
+              match={match}
+              update={update}
               getUserMemos={getUserMemos}
               memos={memos}
               profile={profile}
               memoSearching={memoSearching}
               deleteBtnClick={deleteBtnClick}
+              id={id}
             />
           )
           : (
@@ -126,6 +155,7 @@ class Profile extends Component {
               history={history}
               userBooks={userBooks}
               getUserBooks={getUserBooks}
+              id={id}
             />
           )
         }

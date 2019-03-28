@@ -5,25 +5,34 @@ import './BookPost.scss';
 class BookPost extends Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    const { getUserBooks, userBooks } = this.props;
-
-    if (!userBooks.legnth) {
-      getUserBooks();
-    }
-
+    
     this.bookClicked = this.bookClicked.bind(this);
   }
 
+  componentDidMount() {
+    const { getUserBooks, id } = this.props;
+    // const id = match.params.user_id;
+
+    getUserBooks(false, id);
+
+    // if (!userBooks.legnth) {
+    //   getUserBooks();
+    // } else if (update) {
+    //   getUserBooks(true);
+    // } else if (userId) {
+    //   getUserBooks(false, id);
+    // }
+  }
+
   bookClicked(ev) {
-    const { userBooks, history } = this.props;
+    debugger;
+    const { userBooks, history, id } = this.props;
     const selectedBook = userBooks[ev.currentTarget.id];
 
     history.push({
-      pathname: `./books/${selectedBook.title}`,
+      pathname: `/books/${selectedBook.title}`,
       bookInfo: selectedBook,
+      id,
     });
   }
 
@@ -45,7 +54,6 @@ class BookPost extends Component {
   }
 
   render() {
-    debugger;
     const { userBooks } = this.props;
 
     return (

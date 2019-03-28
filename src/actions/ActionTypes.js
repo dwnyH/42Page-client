@@ -12,3 +12,5 @@ export const EDITING_STATE_SEND = 'EDITING_STATE_SEND';
 export const MEMO_STATE_SEND = 'MEMO_STATE_SEND';
 export const ALL_MEMOS_SEND = 'ALL_MEMOS_SEND';
 export const USER_KEYWORDS_SEND = 'USER_KEYWORDS_SEND';
+export const UPDATE = 'UPDATE';
+export const SEND_POST_ID = 'SEND_POST_ID';

@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect, withRouter, Switch } from 'react-router-dom';
+import { Route, Redirect, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment';
@@ -17,11 +17,130 @@ import './App.scss';
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.onEditedMemoSubmit = this.onEditedMemoSubmit.bind(this);
+    this.onMemoSubmit = this.onMemoSubmit.bind(this);
+    this.deletePost = this.deletePost.bind(this);
   }
 
   componentDidMount() {
     const { sendLoadingState, searchStop } = this.props;
     sendLoadingState();
+  }
+
+  async onEditedMemoSubmit(isPrivate, memo, highlights, book, postId) {
+    debugger;
+    let memoSubmitResponse;
+    const { history } = this.props;
+
+    if (!book.title.length || !highlights.length) {
+      return alert('책 또는 하이라이트 정보를 반드시 입력해주세요 :)');
+    }
+
+    const token = localStorage.getItem('token');
+    const api = 'http://172.30.1.8:8081';
+
+    try {
+      memoSubmitResponse = await axios({
+        method: 'put',
+        url: `${api}/posts/${postId}`,
+        headers: {
+          'Authorization': `bearer ${token}`,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        data: {
+          isPrivate,
+          addedMemo: memo,
+          highlights,
+          bookInfo: book,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    if (memoSubmitResponse.status === 201) {
+      debugger;
+      history.push({
+        pathname: '/home',
+        data: {
+          pageState: 'edit',
+        },
+      });
+    }
+  }
+
+  async onMemoSubmit(isPrivate, memo, highlights, book) {
+    debugger;
+    if (!book.title.length || !highlights.length) {
+      return alert('책 또는 하이라이트 정보를 반드시 입력해주세요 :)');
+    }
+
+    let memoSubmitResponse;
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    const api = 'http://172.30.1.8:8081';
+    const { history } = this.props;
+
+    try {
+      memoSubmitResponse = await axios({
+        method: 'post',
+        url: `${api}/users/${id}/posts`,
+        headers: {
+          'Authorization': `bearer ${token}`,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        data: {
+          isPrivate,
+          addedMemo: memo,
+          highlights,
+          bookInfo: book,
+          createdAt: new Date().toISOString(),
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    //메모저장시 팝업 띄워주기
+    if (memoSubmitResponse.status === 201) {
+      debugger;
+      history.push({
+        pathname: '/home',
+        data: {
+          pageState: 'create',
+        },
+      });
+    }
+  }
+
+  async deletePost(postId) {
+    let deleteRequestResponse;
+    const { history } = this.props;
+    const token = localStorage.getItem('token');
+    const api = 'http://172.30.1.8:8081';
+    try {
+      deleteRequestResponse = await axios({
+        method: 'delete',
+        url: `${api}/posts/${postId}`,
+        headers: {
+          Authorization: `bearer ${token}`,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    console.log('deleteResponse', deleteRequestResponse);
+
+    if (deleteRequestResponse.status === 204) {
+      history.push({
+        pathname: '/home',
+        data: {
+          pageState: 'delete',
+        },
+      });
+    }
   }
 
   render() {
@@ -52,11 +171,13 @@ class App extends Component {
       allMemos,
       getUserKeywords,
       postInfo,
+      update,
+      postId,
+      sendPostId,
+      postUserId,
     } = this.props;
 
     return (
-      // // <Router>
-      // <Loding />
       loading
         ? (
           <div className="loading">
@@ -87,6 +208,7 @@ class App extends Component {
               render={props => (
                 <Home
                   {...props}
+                  update={update}
                   getAllMemos={getAllMemos}
                   allMemosSearching={allMemosSearching}
                   allMemos={allMemos}
@@ -121,6 +243,10 @@ class App extends Component {
                   highlightsOnChange={sendHighlights}
                   memoOnchange={sendAddedMemo}
                   sendMemoState={sendMemoState}
+                  editBtnClick={this.onEditedMemoSubmit}
+                  submitBtnClick={this.onMemoSubmit}
+                  postId={postId}
+                  update={update}
                 />
               )}
             />
@@ -142,7 +268,29 @@ class App extends Component {
               render={props => (
                 <Profile
                   {...props}
+                  update={update}
                   postInfo={postInfo}
+                  postUserId={postUserId}
+                  getUserProfile={getUserProfile}
+                  profile={profile}
+                  getUserMemos={getUserMemos}
+                  memos={memos}
+                  memoSearching={memoSearching}
+                  getUserBooks={getUserBooks}
+                  userBooks={userBooks}
+                  getUserKeywords={getUserKeywords}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/profile/:user_id"
+              render={props => (
+                <Profile
+                  {...props}
+                  update={update}
+                  postInfo={postInfo}
+                  postUserId={postUserId}
                   getUserProfile={getUserProfile}
                   profile={profile}
                   getUserMemos={getUserMemos}
@@ -160,6 +308,7 @@ class App extends Component {
               render={props => (
                 <BookPostDetails
                   {...props}
+                  update={update}
                   sendAddedMemo={sendAddedMemo}
                   sendHighlights={sendHighlights}
                   getSelectedMemos={getSelectedMemos}
@@ -167,6 +316,8 @@ class App extends Component {
                   bookInfo={chosenBookForMemos}
                   sendEditingState={sendEditingState}
                   sendChosenBook={sendChosenBook}
+                  trashcanIconClick={this.deletePost}
+                  sendPostId={sendPostId}
                 />
               )}
             />
@@ -176,7 +327,6 @@ class App extends Component {
               )}
           </Fragment>
         )
-      // </Router>
     );
   }
 }
@@ -222,10 +372,12 @@ const mapStateToProps = (state) => {
   }
 
   return {
-    loading: state.loading.initiate,
+    loading: state.pageState.initiate,
+    update: state.post.postUpdating,
     books: state.books,
     profile: state.post.profile,
     memos: state.post.memos,
+    postId: state.post.postId,
     userBooks: userBookPosts,
     memoSearching: state.post.memoSearching,
     selectedBookMemos: state.post.selectedBookMemos,
@@ -235,6 +387,7 @@ const mapStateToProps = (state) => {
     memoInfo: state.memo,
     allMemos: state.post.allMemos,
     allMemosSearching: state.post.allMemosSearching,
+    postUserId: state.post.postUserId,
   };
 };
 
@@ -271,10 +424,14 @@ const mapDispatchToProps = dispatch => ({
   sendLoadingState() {
     dispatch(actions.sendLoadingState());
   },
-  async getUserBooks() {
-    const id = localStorage.getItem('id');
+  sendPostId(postId) {
+    dispatch(actions.sendPostId(postId));
+  },
+  async getUserBooks(updating, id) {
+    // let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.8:8081';
+
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/books`,
@@ -284,13 +441,13 @@ const mapDispatchToProps = dispatch => ({
       },
     });
 
-    dispatch(actions.sendUserBooks(userInfoResponse.data));
+    dispatch(actions.sendUserBooks(userInfoResponse.data, updating));
   },
-  async getUserKeywords() {
+  async getUserKeywords(id) {
     let userKeywordsResponse;
-    const id = localStorage.getItem('id');
+    // const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.8:8081';
 
     try {
       userKeywordsResponse = await axios({
@@ -304,13 +461,18 @@ const mapDispatchToProps = dispatch => ({
     } catch (err) {
       console.log(err);
     }
-    console.log(userKeywordsResponse);
+
     dispatch(actions.sendUserKeywords(userKeywordsResponse.data));
   },
-  async getUserProfile() {
-    const id = localStorage.getItem('id');
+  async getUserProfile(id) {
+    // let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.8:8081';
+
+    // if (userId) {
+    //   id = userId;
+    // }
+
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -320,11 +482,11 @@ const mapDispatchToProps = dispatch => ({
       },
     });
 
-    dispatch(actions.sendUserProfile(userInfoResponse.data));
+    dispatch(actions.sendUserProfile(userInfoResponse.data, id));
   },
-  async getAllMemos(page) {
+  async getAllMemos(page, isUpdate) {
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.8:8081';
     const allMemosResponse = await axios({
       method: 'get',
       url: `${api}/posts/memos/${page}`,
@@ -334,12 +496,18 @@ const mapDispatchToProps = dispatch => ({
       },
     });
 
-    dispatch(actions.sendAllMemos(allMemosResponse.data));
+    dispatch(actions.sendAllMemos(allMemosResponse.data, isUpdate));
   },
-  async getUserMemos(page) {
-    const id = localStorage.getItem('id');
+  async getUserMemos(page, userId) {
+    debugger;
+    let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.8:8081';
+
+    if (userId) {
+      id = userId;
+    }
+
     const userMemosResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/memos/${page}`,
@@ -349,17 +517,21 @@ const mapDispatchToProps = dispatch => ({
       },
     });
 
-    dispatch(actions.sendUserMemos(userMemosResponse.data));
+    dispatch(actions.sendUserMemos(userMemosResponse.data, page));
   },
-  async getSelectedMemos(bookTitle) {
+  async getSelectedMemos(bookTitle, userId) {
     let memoRequestResponse;
-    const id = localStorage.getItem('id');
+    // let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.8:8081';
+
+    // if (userId) {
+    //   id = userId;
+    // }
     try {
       memoRequestResponse = await axios({
         method: 'get',
-        url: `${api}/users/${id}/books/${bookTitle}/memos`,
+        url: `${api}/users/${userId}/books/${bookTitle}/memos`,
         headers: {
           'Authorization': `bearer ${token}`,
           'Content-Type': 'application/json; charset=utf-8',

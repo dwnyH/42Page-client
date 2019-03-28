@@ -13,15 +13,32 @@ class MemoPost extends Component {
   }
 
   componentDidMount() {
-    const { getUserMemos, memos } = this.props;
-    const { memoPage } = this.state;
-
-    if (!memos.length) {
-      getUserMemos(memoPage);
-    }
-
-    window.addEventListener('scroll', this.debouncedScroll);
+    const {
+      getUserMemos,
+      id,
+      match,
+    } = this.props;
+    // const id = match.params.user_id;
+    // const userId = localStorage.getItem('id');
+    debugger;
+    getUserMemos(1, id);
+    // if ((id === userId) && (!memos.length || update || postUserId !== userId)) {
+    //   getUserMemos(1, id);
+    // } else if (id !== userId) {
+    //   getUserMemos(1, id);
+    // }
   }
+
+  // componentDidUpdate(prevProps) {
+  //   debugger;
+  //   const {
+  //     postUserId,
+  //     getUserMemos,
+  //   } = this.props;
+  //   if (postUserId !== prevProps.postUserId) {
+  //     getUserMemos(1, postUserId);
+  //   }
+  // }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.debouncedScroll);
@@ -44,7 +61,11 @@ class MemoPost extends Component {
   }
 
   makeMemoLists() {
-    const { memos, profile } = this.props;
+    const {
+      memos,
+      profile,
+    } = this.props;
+
     const memoLists = memos.map(memo => (
       <div className="memoPost" key={memo._id}>
         <div className="highlights">
@@ -71,11 +92,12 @@ class MemoPost extends Component {
   }
 
   render() {
-    const { memos } = this.props;
+    const { memos, match, postUserId } = this.props;
+    const id = match.params.user_id;
 
     return (
       <div className="memoPosts">
-        {memos.length
+        {memos.length || id === postUserId
           ? this.makeMemoLists()
           : '저장한 메모가 없습니다. 메모를 만들어보세요 :)'
         }

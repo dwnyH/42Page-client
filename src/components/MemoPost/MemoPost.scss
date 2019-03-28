@@ -9,27 +9,27 @@
         color: #E4C3D3;
         box-shadow: 2px 2px 10px rgba(0,0,0,.2);
 
-        &:nth-child(2) {
+        &:nth-child(2n) {
             background: linear-gradient(90deg, #006e91, #014C63);
             color: #ffffff;
         }
 
-        &:nth-child(3) {
+        &:nth-child(3n) {
             background: linear-gradient(90deg, #EDEDEF, #C8C6C7);
             color: #181818;
         }
 
-        &:nth-child(4) {
+        &:nth-child(4n) {
             background: linear-gradient(90deg, #e5dbb3, #B6B096);
             color: #191D42;
         }
 
-        &:nth-child(5) {
+        &:nth-child(5n) {
             background: linear-gradient(90deg, #EDEDEF, #C8C6C7);
             color: #014C63;
         }
 
-        &:nth-child(6) {
+        &:nth-child(6n) {
             background: linear-gradient(90deg, #cccfd6, #B0B7C1);
             color: #B77699;
         }

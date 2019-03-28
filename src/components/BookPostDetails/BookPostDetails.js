@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import './BookPostDetails.scss';
-// import 'firebase/auth';
 
 class BookPostDetails extends Component {
   constructor(props) {
@@ -11,17 +9,24 @@ class BookPostDetails extends Component {
     this.penIconClick = this.penIconClick.bind(this);
   }
 
-  componentDidMount() {
-    const { getSelectedMemos, bookInfo, match } = this.props;
+  trashcanIconClick(ev) {
+    const { trashcanIconClick } = this.props;
+    const postId = ev.currentTarget.id;
 
-    if (!Object.keys(bookInfo).length) {
-      getSelectedMemos(match.params.bookTitle);
-    } else if (match.params.bookTitle !== bookInfo.title) {
-      getSelectedMemos(match.params.bookTitle);
-    }
+    trashcanIconClick(postId);
+  }
+
+  componentDidMount() {
+    debugger;
+    const { getSelectedMemos, match, history } = this.props;
+    const { bookTitle } = match.params;
+    const { id } = history.location;
+
+    getSelectedMemos(bookTitle, id);
   }
 
   penIconClick(ev) {
+    debugger;
     const {
       history,
       memos,
@@ -29,6 +34,7 @@ class BookPostDetails extends Component {
       sendHighlights,
       sendEditingState,
       sendChosenBook,
+      sendPostId,
     } = this.props;
     const postId = ev.currentTarget.id.split(':')[0];
     const index = Number(ev.currentTarget.id.split(':')[1]);
@@ -40,50 +46,29 @@ class BookPostDetails extends Component {
     sendChosenBook(img, title, author, publisher);
     sendEditingState(false);
 
-    history.push({
-      pathname: '/memo',
-      data: { postId },
-    });
-  }
-
-  async trashcanIconClick(ev) {
-    let deleteRequestResponse;
-    const { history } = this.props;
-    const postId = ev.currentTarget.id;
-    // deleteBtnClick(ev.currentTarget.id);
-    const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
-    try {
-      deleteRequestResponse = await axios({
-        method: 'delete',
-        url: `${api}/posts/${postId}`,
-        headers: {
-          Authorization: `bearer ${token}`,
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    console.log('deleteResponse', deleteRequestResponse);
-
-    if (deleteRequestResponse.status === 204) {
-      history.push('/home');
-    }
+    sendPostId(postId);
+    history.push('/memo');
   }
 
   makeMemoLists() {
-    const { memos } = this.props;
-    debugger;
+    const { memos, history } = this.props;
+    const userId = localStorage.getItem('id');
+
     const memoList = memos.map((memo, idx) => (
       <div className="memoPost" key={memo._id}>
-        <button className="edit" onClick={this.penIconClick} type="submit" id={`${memo._id}:${idx}`}>
-          <i className="fas fa-pen-square" />
-        </button>
-        <button className="delete" onClick={this.trashcanIconClick} type="submit" id={memo._id}>
-          <i className="fas fa-trash" />
-        </button>
+        {
+          history.location.id === userId
+            && (
+            <div className="buttons">
+              <button className="edit" onClick={this.penIconClick} type="submit" id={`${memo._id}:${idx}`}>
+                <i className="fas fa-pen-square" />
+              </button>
+              <button className="delete" onClick={this.trashcanIconClick} type="submit" id={memo._id}>
+                <i className="fas fa-trash" />
+              </button>
+            </div>
+            )
+        }
         <div className="highlights">
           {memo.highlights}
         </div>
@@ -103,6 +88,7 @@ class BookPostDetails extends Component {
   }
 
   render() {
+    debugger;
     let style;
     const { bookInfo, memos } = this.props;
     if (Object.keys(bookInfo).length) {

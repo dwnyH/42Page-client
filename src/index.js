@@ -7,6 +7,7 @@ import logger from 'redux-logger';
 import rootReducer from './reducers/index';
 import './index.scss';
 import App from './containers/App';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import * as serviceWorker from './serviceWorker';
 
 const store = createStore(rootReducer, applyMiddleware(logger));
@@ -14,7 +15,9 @@ const store = createStore(rootReducer, applyMiddleware(logger));
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <ScrollToTop>
+        <App />
+      </ScrollToTop>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root'),

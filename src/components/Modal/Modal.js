@@ -10,9 +10,9 @@ class Modal extends Component {
   }
 
   componentDidMount() {
-    const { getUserKeywords, keywords } = this.props;
+    const { getUserKeywords, keywords, userId } = this.props;
 
-    getUserKeywords();
+    getUserKeywords(userId);
 
     if (Object.keys(keywords).length) {
       this.makeKeywordLists(keywords);
@@ -27,17 +27,17 @@ class Modal extends Component {
   }
 
   makeKeywordLists(allKeywords) {
-    debugger;
-    const keywordsInFormat = Object.keys(allKeywords).map(text => (
-      [text, allKeywords[text] * 10]
-    ));
+    // const keywordsInFormat = Object.keys(allKeywords).map(text => (
+    //   [text, allKeywords[text] * 10]
+    // ));
 
     WordCloud.minFontSize = '15px';
-    debugger;
     WordCloud(this.canvasRef.current, {
-      list: keywordsInFormat,
+      list: allKeywords,
       backgroundColor: '#000000',
       fontFamily: 'Noto Serif KR, serif',
+      weightFactor: 3,
+      gridSize: 5,
       fontCSS: 'https://fonts.googleapis.com/css?family=Noto+Serif+KR:400',
       color: () => {
         const colors = ['#FCD594', '#E06656', '#B5558A', '#5F426E', '#A1A2AA', '#7E8A81'];

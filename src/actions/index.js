@@ -12,6 +12,8 @@ import {
   MEMO_STATE_SEND,
   ALL_MEMOS_SEND,
   USER_KEYWORDS_SEND,
+  UPDATE,
+  SEND_POST_ID,
 } from './ActionTypes';
 
 export function sendLoadingState() {
@@ -47,17 +49,19 @@ export function sendHighlights(highlights) {
   };
 }
 
-export function sendUserProfile(profile) {
+export function sendUserProfile(profile, id) {
   return {
     type: USER_PROFILE_SEND,
     profile,
+    id,
   };
 }
 
-export function sendUserMemos(memos) {
+export function sendUserMemos(memos, page) {
   return {
     type: USER_MEMOS_SEND,
     memos,
+    page,
   };
 }
 
@@ -97,16 +101,32 @@ export function sendMemoState(isPrivate) {
   };
 }
 
-export function sendAllMemos(allMemos) {
+export function sendAllMemos(allMemos, isUpdate) {
   return {
     type: ALL_MEMOS_SEND,
     allMemos,
+    isUpdate,
   };
 }
 
-export function sendUserKeywords(keywords) {
+export function sendUserKeywords(keywords, updating) {
   return {
     type: USER_KEYWORDS_SEND,
     keywords,
+    updating,
+  };
+}
+
+export function updatePost(update) {
+  return {
+    type: UPDATE,
+    update,
+  };
+}
+
+export function sendPostId(postId) {
+  return {
+    type: SEND_POST_ID,
+    postId,
   };
 }
