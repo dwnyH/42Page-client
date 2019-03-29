@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import './Camera.scss';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -16,7 +15,6 @@ class Camera extends Component {
         y: 10,
         width: 80,
         height: 80,
-        croppedImageUrl: '',
       },
       croppedImageUrl: '',
     };
@@ -26,29 +24,15 @@ class Camera extends Component {
     this.turnToText = this.turnToText.bind(this);
   }
 
-  // editText(ev) {
-  //   const edited = ev.target.value;
-  //   this.setState({
-  //     detectedText: edited,
-  //   });
-  // }
-
   fileUpload(ev) {
-    ;
     const uploaded = ev.target.files;
-    // console.log(window.URL.createObjectURL(uploaded[0]));
+
     if (uploaded && uploaded.length) {
-      // const URL = window.URL || window.webkitURL;
-      // const imgURL = URL.createObjectURL(uploaded[0]);
       loadImage(uploaded[0], (canvas) => {
-        ;
-        // const a = canvas.toBlob();
-        // console.log(a);
         this.setState({
           src: canvas.toDataURL(),
         });
       }, { maxWidth: '100%', orientation: true });
-      // this.setState({ src: imgURL });
     }
   }
 
@@ -85,7 +69,6 @@ class Camera extends Component {
     );
 
     return new Promise((resolve) => {
-      ;
       this.image = canvas;
       canvas.toBlob((blob) => {
         blob.name = fileName;
