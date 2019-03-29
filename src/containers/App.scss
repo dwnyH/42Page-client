@@ -4,7 +4,10 @@
 }
 
 html {
-  background: #B6B6B8;
+  width: 100vw;
+  margin: 0 auto;
+  background: linear-gradient(0, rgb(238, 201, 192), #FAF9F5 70%);
+  min-height: 100vh;
 }
 
 .App {

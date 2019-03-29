@@ -67,7 +67,7 @@ class BookSearchResult extends Component {
       <div className="bookSearchResult" onScroll={this.debouncedScroll}>
         {books.length
           ? this.makeBookLists(books)
-          : '리서치결과'
+          : null
         }
         {searchStop && '더 이상 검색결과가 없습니다.'}
       </div>

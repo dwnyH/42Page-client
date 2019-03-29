@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import KeywordSearchResult from '../KeywordSearchResult/KeywordSearchResult';
 import './KeywordSearch.scss';
 
@@ -13,6 +12,7 @@ class KeywordSearch extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.debouncedKeyPress = this.debouncedKeyPress.bind(this);
     this.enterKeyPress = this.enterKeyPress.bind(this);
+    this.searchBtnClick = this.searchBtnClick.bind(this);
   }
 
   onInputChange(ev) {
@@ -28,7 +28,6 @@ class KeywordSearch extends Component {
     const { input } = this.state;
 
     if (key === 'Enter') {
-        debugger;
       onSubmit(input);
     }
   }
@@ -37,7 +36,7 @@ class KeywordSearch extends Component {
     this.debouncedKeyPress(ev.key);
   }
 
-  submitBtnClick() {
+  searchBtnClick() {
     const { onSubmit } = this.props;
     const { input } = this.state;
 
@@ -49,13 +48,14 @@ class KeywordSearch extends Component {
 
     return (
       <div className="keywordSearch">
+        <div className="notice">Keyword Search</div>
         <div className="searchBox">
           <input
-            className="search"
+            className="search userInput"
             onChange={this.onInputChange}
             onKeyPress={this.enterKeyPress}
           />
-          <button type="submit" onClick={this.submitBtnClick}>search</button>
+          <button className="greenbtn" type="submit" onClick={this.submitBtnClick}>search</button>
         </div>
         <KeywordSearchResult
           history={history}

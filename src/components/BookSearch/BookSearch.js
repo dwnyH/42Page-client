@@ -33,7 +33,7 @@ class BookSearch extends Component {
 
   debouncedKeyPress(key, input) {
     if (key === 'Enter') {
-      if (input === 'search') {
+      if (input.includes('search')) {
         this.bookSearch();
       } else {
         this.inputBook();
@@ -86,23 +86,24 @@ class BookSearch extends Component {
     const { isLastSearchPage, page, keyword } = books;
 
     return (
-      <div className="bookSearch">
-        <div className="searchBox">
+      <div className="bookSearch userInputContainer">
+        <div className="notice">Book Search</div>
+        <div className="searchBox box">
           <input
-            className="search"
+            className="search userInput"
             onChange={this.searchKeyword}
             onKeyPress={this.enterKeyPress}
           />
-          <button type="submit" onClick={this.bookSearch}>search</button>
+          <button className="greenbtn" type="submit" onClick={this.bookSearch}>search</button>
         </div>
-        <div className="userInputBox">
+        <div className="userInputBox box">
           <input
             placeholder="책 제목 직접 입력"
-            className="userInput"
+            className="userInput userInput"
             onChange={this.writingBookTitle}
             onKeyPress={this.enterKeyPress}
           />
-          <button type="submit" onClick={this.inputBook}>submit</button>
+          <button className="greenbtn" type="submit" onClick={this.inputBook}>submit</button>
         </div>
         <BookSearchResult
           history={history}

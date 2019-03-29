@@ -3,42 +3,40 @@
     font-family: 'Noto Serif KR', serif;
 
     .memoPost{
+        background: linear-gradient(90deg, #fbf3e8, #F3E0C7);
+        color: #5a5a55;
         margin: 30px 15px;;
         padding: 10px;
-        background: linear-gradient(90deg, #252b64, #191D42);
-        color: #E4C3D3;
         box-shadow: 2px 2px 10px rgba(0,0,0,.2);
 
         &:nth-child(2n) {
-            background: linear-gradient(90deg, #006e91, #014C63);
+            background: linear-gradient(90deg, #394569, #18254a);
             color: #ffffff;
         }
 
         &:nth-child(3n) {
-            background: linear-gradient(90deg, #EDEDEF, #C8C6C7);
-            color: #181818;
+            background: linear-gradient(90deg, #e7baaa, #b37c69);
+            color: #261e30;
         }
 
         &:nth-child(4n) {
-            background: linear-gradient(90deg, #e5dbb3, #B6B096);
-            color: #191D42;
+            background: linear-gradient(90deg, #708574, #55695b);
+            color: #d4cbcb;
         }
 
         &:nth-child(5n) {
-            background: linear-gradient(90deg, #EDEDEF, #C8C6C7);
-            color: #014C63;
+            background: linear-gradient(90deg, #E4E9ED, #bfc7cd);
+            color: #10162b;
         }
 
         &:nth-child(6n) {
-            background: linear-gradient(90deg, #cccfd6, #B0B7C1);
-            color: #B77699;
+            background: linear-gradient(90deg, #d6b2a9, #b58f84);
+            color: #404040;
         }
 
         .highlights {
             margin: 10px;
-            border: 0.2px solid rgb(206, 206, 206);
             padding: 20px;
-            border-radius: 10px;
             line-height: 170%;
             font-weight: 600;
         }

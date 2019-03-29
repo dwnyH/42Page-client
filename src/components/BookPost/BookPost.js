@@ -11,21 +11,11 @@ class BookPost extends Component {
 
   componentDidMount() {
     const { getUserBooks, id } = this.props;
-    // const id = match.params.user_id;
 
     getUserBooks(false, id);
-
-    // if (!userBooks.legnth) {
-    //   getUserBooks();
-    // } else if (update) {
-    //   getUserBooks(true);
-    // } else if (userId) {
-    //   getUserBooks(false, id);
-    // }
   }
 
   bookClicked(ev) {
-    debugger;
     const { userBooks, history, id } = this.props;
     const selectedBook = userBooks[ev.currentTarget.id];
 

@@ -45,14 +45,15 @@
         width: 100vw;
         justify-content: space-around;
         margin: 10px 0px 0px 0px;
-        padding: 10px;
-        background-color: rgba(37, 25, 21, 0.7);
+        border-top: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
 
         button {
             background: none;
             border: none;
-            font-size: 15px;
-            color: white;
+            font-size: 18px;
+            padding: 20px;
+            color: #181818;
         }
     }
 }

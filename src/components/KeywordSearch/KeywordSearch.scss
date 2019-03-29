@@ -1,0 +1,51 @@
+.keywordSearch {
+    font-family: 'Noto Serif KR', serif;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    .searchBox {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 100px;
+
+        .greenbtn {
+            margin-top: 30px;
+        }
+
+        .userInput {
+            height: 50px;
+            width: 70vw;
+            text-align: center;
+        }
+    }
+
+    // .userLists {
+    //     margin-top: 50px;
+    //     width: 70vw;
+    //     text-align: center;
+
+    //     .userList {
+    //         display: flex;
+    //         justify-content: center;
+    //     }
+    // }
+
+    .userLists {
+        display: flex;
+        width: 70vw;
+        text-align: center;
+        margin-top: 60px;
+
+        .userList {
+            width: 70vw;
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-columns: 1fr 3fr;
+            align-items: center;
+        }
+    }
+}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import './Memo.scss';
 import 'firebase/auth';
@@ -18,7 +17,7 @@ class Memo extends Component {
   }
 
   componentDidMount() {
-    debugger;
+    ;
     const { history } = this.props;
     if (history.location.data) {
       this.memoId = history.location.data.postId;
@@ -52,7 +51,6 @@ class Memo extends Component {
     const {
       memoInfo,
       submitBtnClick,
-      history,
     } = this.props;
     const {
       book,
@@ -62,17 +60,13 @@ class Memo extends Component {
     } = memoInfo;
 
     submitBtnClick(isPrivate, memo, highlights, book);
-    debugger;
-    // history.push('/home');
   }
 
   onEditBtnClick() {
-    debugger;
     const {
       memoInfo,
       editBtnClick,
       postId,
-      history,
     } = this.props;
     const {
       book,
@@ -90,9 +84,10 @@ class Memo extends Component {
     } = this.props;
 
     return (
-      <div className="addMemo">
+      <div className="addMemo userInputContainer">
+        <div className="notice">Book Information & Memo</div>
         <textarea
-          className="highlights"
+          className="userInput"
           onChange={this.changeHighlightInput}
           defaultValue={
             memoInfo.highlights
@@ -100,15 +95,15 @@ class Memo extends Component {
           }
         />
         <Link to="/bookSearch">
-          <div className="bookSearch">
+          <div className="bookSearch greenbtn">
             {memoInfo.book.title.length
               ? memoInfo.book.title
-              : '*(필수) 책 선택하기'
+              : 'Enter book title'
             }
           </div>
         </Link>
         <textarea
-          className="memoTextarea"
+          className="userInput"
           onChange={this.changeMemoInput}
           placeholder="선택한 문장에 대한 메모를 남겨보세요 :)"
           defaultValue={
@@ -117,22 +112,15 @@ class Memo extends Component {
               : ''
           }
         />
-        <div className="private">
-          <Toggle
-            defaultChecked={memoInfo.isPrivate}
-            aria-label="Private"
-            onChange={this.privateCheck}
-          />
-        </div>
         {
           memoInfo.isNew
             ? (
-              <button className="memo" onClick={this.onSubmitBtnClick} type="submit">
-                memo
+              <button className="memo greenbtn" onClick={this.onSubmitBtnClick} type="submit">
+                Memo
               </button>
             )
             : (
-              <button className="edit" onClick={this.onEditBtnClick} type="submit">
+              <button className="edit greenbtn" onClick={this.onEditBtnClick} type="submit">
                 edit
               </button>
             )

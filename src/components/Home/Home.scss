@@ -1,10 +1,25 @@
 .memoPosts {
+    .logoWrapper {
+        display: flex;
+        justify-content: center;
+        .logo {
+            font-size: 32px;
+    margin: 13px;
+    margin-bottom: 51px;
+    font-family: 'Anaheim', sans-serif;
+        }
+    }
+
     .about {
-        margin: 20px;
-        height: 500px;
-        border: 1px solid gray;
-        border-radius: 20px;
-        padding: 20px;
+        &:before {
+            display: block;
+            content: '';
+            width: 100vw;
+            height: 296px;
+            background: url('https://i.ibb.co/BBkXCjg/image.png') 0 0 no-repeat / cover;
+            background-size: cover;
+            margin-bottom: 70px;
+        }
     }
 
     .userInfo {

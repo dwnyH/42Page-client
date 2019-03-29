@@ -15,6 +15,7 @@ import {
   UPDATE,
   SEND_POST_ID,
   SEND_KEYWORD_RESULTS,
+  SEND_MEMO_STATE,
 } from './ActionTypes';
 
 export function sendLoadingState() {
@@ -136,5 +137,12 @@ export function sendKeywordResults(users) {
   return {
     type: SEND_KEYWORD_RESULTS,
     users,
+  };
+}
+
+export function sendProfilePageState(isMemo) {
+  return {
+    type: SEND_MEMO_STATE,
+    isMemo,
   };
 }

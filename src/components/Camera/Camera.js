@@ -34,14 +34,14 @@ class Camera extends Component {
   // }
 
   fileUpload(ev) {
-    debugger;
+    ;
     const uploaded = ev.target.files;
     // console.log(window.URL.createObjectURL(uploaded[0]));
     if (uploaded && uploaded.length) {
       // const URL = window.URL || window.webkitURL;
       // const imgURL = URL.createObjectURL(uploaded[0]);
       loadImage(uploaded[0], (canvas) => {
-        debugger;
+        ;
         // const a = canvas.toBlob();
         // console.log(a);
         this.setState({
@@ -85,7 +85,7 @@ class Camera extends Component {
     );
 
     return new Promise((resolve) => {
-      debugger;
+      ;
       this.image = canvas;
       canvas.toBlob((blob) => {
         blob.name = fileName;
@@ -155,7 +155,7 @@ class Camera extends Component {
       <div className="imgUpload">
         <div className="filebox">
           <label htmlFor="fileButton" className="cameraButton">
-            Click to snap sentences 😉
+            책 페이지 업로드
           </label>
           <input
             id="fileButton"
@@ -179,10 +179,12 @@ class Camera extends Component {
                 renderSelectionAddon={this.renderSelectionAddon}
               />
             )
-            : 'upload file'
+            : null
         }
         </div>
-        <button className="bookmark" type="submit" onClick={this.turnToText}>Highlights</button>
+        <button className="bookmark" type="submit" onClick={this.turnToText}>
+          선택영역 저장
+        </button>
       </div>
     );
   }

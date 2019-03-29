@@ -16,7 +16,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    debugger;
+    ;
     const {
       getAllMemos,
       allMemos,
@@ -31,9 +31,9 @@ class Home extends Component {
     }
 
     if (!allMemos.length || pageState) {
-      debugger;
+      ;
       if (pageState) {
-        debugger;
+        ;
         history.location.data.pageState = null;
         return getAllMemos(1, true);
       }
@@ -52,7 +52,7 @@ class Home extends Component {
     console.log(ev.currentTarget.id);
     const { history } = this.props;
     const id = ev.currentTarget.id;
-    debugger;
+    ;
     history.push({ pathname: `/profile/${id}` });
   }
 
@@ -80,7 +80,7 @@ class Home extends Component {
         <div className="userInfo" onClick={this.userNameClick} id={memo.user_id._id}>
           <img src={memo.user_id.photoURL} alt="profileImage" />
           <div className="user">
-            {memo.user_id.name}
+            {memo.user_id.name.split(' ')[0]}
           </div>
         </div>
         <div className="highlights">
@@ -101,13 +101,14 @@ class Home extends Component {
   }
 
   render() {
-    debugger;
     const { allMemos } = this.props;
 
     return (
       <div className="memoPosts">
-        <div className="about">home</div>
-        {/* <div className="userMemoBackground" /> */}
+        <div className="logoWrapper">
+          <div className="logo">42 Page</div>
+        </div>
+        <div className="about" />
         {allMemos.length
           ? this.makeAllMemoLists()
           : '저장된 메모가 없습니다. 메모를 만들어보세요 :)'

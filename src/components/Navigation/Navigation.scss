@@ -2,7 +2,7 @@
     display: grid;
     font-size: 20px;
     padding: 20px 0;
-    background: #878788;
+    background: #ffffff;
     grid-auto-flow: column;
     justify-content: space-around;
     align-items: flex-end;
@@ -11,6 +11,7 @@
     left: 0;
     width: 100vw;
     z-index: 10;
+    box-shadow: 0 -3px 10px rgba(0,0,0,.3);
 }
 
 .navigation a:link, .navigation a:visited {

@@ -46,9 +46,9 @@ export default (state = initialState, action) => {
 
     case USER_MEMOS_SEND:
       if (action.memos.length) {
-        debugger;
+        ;
         if (!copiedState.memos.length || copiedState.postUpdating || action.page === 1) {
-          debugger;
+          ;
           copiedState.memos = action.memos;
           copiedState.postUpdating = false;
         } else {
@@ -74,11 +74,9 @@ export default (state = initialState, action) => {
     case ALL_MEMOS_SEND:
       if (action.allMemos.length) {
         if (!copiedState.allMemos.length || action.isUpdate) {
-          debugger;
           copiedState.allMemos = action.allMemos;
           copiedState.postUpdating = action.isUpdate;
         } else {
-          debugger;
           copiedState.allMemos = [...copiedState.allMemos, ...action.allMemos];
         }
       } else {
@@ -93,7 +91,6 @@ export default (state = initialState, action) => {
       return copiedState;
 
     case UPDATE:
-      debugger;
       copiedState.postUpdating = action.update;
 
       return copiedState;

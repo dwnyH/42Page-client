@@ -9,7 +9,6 @@ class Profile extends Component {
     super(props);
 
     this.state = {
-      memoPage: true,
       isModalOpen: false,
     };
     this.postingChange = this.postingChange.bind(this);
@@ -18,7 +17,6 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
-    debugger;
     const { getUserProfile, match } = this.props;
     let id;
 
@@ -29,25 +27,15 @@ class Profile extends Component {
     }
 
     getUserProfile(id);
-
-    // if (history.location.data) {
-    //   debugger;
-    //   getUserProfile(history.location.data.userId);
-    //   history.location.data = null;
-    // } else {
-    //   getUserProfile();
-    // }
   }
 
   postingChange(ev) {
+    ;
+    const { navigateBtnClick } = this.props;
     if (ev.currentTarget.className === 'memoButton') {
-      this.setState({
-        memoPage: true,
-      });
+      navigateBtnClick(true);
     } else {
-      this.setState({
-        memoPage: false,
-      });
+      navigateBtnClick(false);
     }
   }
 
@@ -64,30 +52,29 @@ class Profile extends Component {
   }
 
   render() {
-    const { memoPage, isModalOpen } = this.state;
+    const { isModalOpen } = this.state;
     const {
       postInfo,
-      profile,
       getUserMemos,
-      memos,
       userBooks,
       getUserBooks,
-      memoSearching,
       deleteBtnClick,
       history,
       getUserKeywords,
-      update,
-      postUserId,
-      match
+      match,
+      isMemoPage,
     } = this.props;
     let id;
+    let name;
 
     if (match.params.user_id) {
       id = match.params.user_id;
     } else {
       id = localStorage.getItem('id');
     }
-
+    if (postInfo.profile.name.length) {
+      name = `${postInfo.profile.name.split(' ')[0]}'s keyword`;
+    }
 
     return (
       <Fragment>
@@ -107,16 +94,16 @@ class Profile extends Component {
             <div className="userInfo">
               <img
                 className="userImg"
-                src={profile.imgSrc}
+                src={postInfo.profile.imgSrc}
                 alt="profileImg"
               />
               <div className="userName">
-                {profile.name}
+                {name}
               </div>
             </div>
             <div className="keywordInfo">
               <button className="keywordBtn" type="button" onClick={this.showModal}>
-                {profile.name.split(' ')[0]}'s keyword
+                {name}
               </button>
             </div>
           </div>
@@ -137,15 +124,15 @@ class Profile extends Component {
             </button>
           </div>
         </div>
-        {memoPage
+        {isMemoPage
           ? (
             <MemoPost
               match={match}
-              update={update}
+              update={postInfo.postUpdating}
               getUserMemos={getUserMemos}
-              memos={memos}
-              profile={profile}
-              memoSearching={memoSearching}
+              memos={postInfo.memos}
+              profile={postInfo.profile}
+              memoSearching={postInfo.memoSearching}
               deleteBtnClick={deleteBtnClick}
               id={id}
             />

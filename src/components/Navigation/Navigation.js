@@ -8,7 +8,7 @@ class Navigation extends Component {
   }
 
   render() {
-    debugger;
+    ;
     const id = localStorage.getItem('id');
     return (
       <div className="navigation">

@@ -17,7 +17,7 @@ class BookPostDetails extends Component {
   }
 
   componentDidMount() {
-    debugger;
+    ;
     const { getSelectedMemos, match, history } = this.props;
     const { bookTitle } = match.params;
     const { id } = history.location;
@@ -26,7 +26,7 @@ class BookPostDetails extends Component {
   }
 
   penIconClick(ev) {
-    debugger;
+    ;
     const {
       history,
       memos,
@@ -88,7 +88,7 @@ class BookPostDetails extends Component {
   }
 
   render() {
-    debugger;
+    ;
     let style;
     const { bookInfo, memos } = this.props;
     if (Object.keys(bookInfo).length) {
