@@ -15,7 +15,7 @@
     "react-dom": "^16.8.4",
     "react-image-crop": "^6.0.18",
     "react-redux": "^6.0.1",
-    "react-router-dom": "^4.4.0",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-toggle": "^4.0.2",
     "redux": "^4.0.1",
