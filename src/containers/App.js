@@ -38,7 +38,7 @@ class App extends Component {
     }
 
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
 
     try {
       memoSubmitResponse = await axios({
@@ -77,7 +77,7 @@ class App extends Component {
     let memoSubmitResponse;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
     const { history } = this.props;
 
     try {
@@ -114,7 +114,7 @@ class App extends Component {
     let deleteRequestResponse;
     const { history } = this.props;
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
     try {
       deleteRequestResponse = await axios({
         method: 'delete',
@@ -455,7 +455,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getKeywordsRelatedUsers(keyword) {
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
 
     const keywordSearchResponse = await axios({
       method: 'get',
@@ -472,7 +472,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getUserBooks(updating, id) {
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
 
     const userInfoResponse = await axios({
       method: 'get',
@@ -488,7 +488,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserKeywords(id) {
     let userKeywordsResponse;
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
 
     try {
       userKeywordsResponse = await axios({
@@ -507,7 +507,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getUserProfile(id) {
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -521,7 +521,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getAllMemos(page, isUpdate) {
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
     const allMemosResponse = await axios({
       method: 'get',
       url: `${api}/posts/memos/${page}`,
@@ -536,7 +536,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserMemos(page, userId) {
     let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
 
     if (userId) {
       id = userId;
@@ -556,7 +556,7 @@ const mapDispatchToProps = dispatch => ({
   async getSelectedMemos(bookTitle, userId) {
     let memoRequestResponse;
     const token = localStorage.getItem('token');
-    const api = 'http://192.168.0.81:8081';
+    const api = 'http://172.30.1.24:8081';
 
     try {
       memoRequestResponse = await axios({

@@ -27,7 +27,7 @@ class Login extends Component {
       if (result) {
         const { email, photoURL, uid } = result.user;
         const name = result.user.displayName;
-        const url = 'http://192.168.0.81:8081';
+        const url = 'http://172.30.1.24:8081';
         const jwtTokenResponse = await axios.post(`${url}/auth`, {
           name,
           email,
