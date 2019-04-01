@@ -55,7 +55,7 @@ class KeywordSearch extends Component {
             onChange={this.onInputChange}
             onKeyPress={this.enterKeyPress}
           />
-          <button className="greenbtn" type="submit" onClick={this.submitBtnClick}>search</button>
+          <button className="greenbtn" type="submit" onClick={this.searchBtnClick}>search</button>
         </div>
         <KeywordSearchResult
           history={history}

@@ -36,7 +36,7 @@ class Modal extends Component {
       list: allKeywords,
       backgroundColor: '#000000',
       fontFamily: 'Noto Serif KR, serif',
-      weightFactor: 3,
+      weightFactor: 10,
       gridSize: 5,
       fontCSS: 'https://fonts.googleapis.com/css?family=Noto+Serif+KR:400',
       color: () => {
@@ -47,7 +47,7 @@ class Modal extends Component {
   }
 
   render() {
-    const { keywords, backgroundClick } = this.props;
+    const { backgroundClick } = this.props;
 
     return (
       <div className="modalBox" onClick={backgroundClick}>

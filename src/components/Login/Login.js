@@ -27,7 +27,8 @@ class Login extends Component {
       if (result) {
         const { email, photoURL, uid } = result.user;
         const name = result.user.displayName;
-        const url = 'http://172.30.1.24:8081';
+        // const url = 'http://192.168.0.81:8081';
+        const url = 'http://42page-development.5kbuqzz6np.ap-northeast-2.elasticbeanstalk.com';
         const jwtTokenResponse = await axios.post(`${url}/auth`, {
           name,
           email,
@@ -64,9 +65,7 @@ class Login extends Component {
   render() {
     return (
       <div className="loginPage">
-        <div className="title">
-          blowing
-        </div>
+        <div className="title">42 Page</div>
         <div className="loginBtn">
           <button
             className="facebook"

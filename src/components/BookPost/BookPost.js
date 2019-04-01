@@ -4,7 +4,6 @@ import './BookPost.scss';
 class BookPost extends Component {
   constructor(props) {
     super(props);
-    
     this.bookClicked = this.bookClicked.bind(this);
   }
 

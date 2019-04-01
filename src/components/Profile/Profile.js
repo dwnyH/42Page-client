@@ -30,7 +30,6 @@ class Profile extends Component {
   }
 
   postingChange(ev) {
-    ;
     const { navigateBtnClick } = this.props;
     if (ev.currentTarget.className === 'memoButton') {
       navigateBtnClick(true);
@@ -98,7 +97,7 @@ class Profile extends Component {
                 alt="profileImg"
               />
               <div className="userName">
-                {name}
+                {postInfo.profile.name.split(' ')[0]}
               </div>
             </div>
             <div className="keywordInfo">

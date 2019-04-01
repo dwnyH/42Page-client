@@ -6,17 +6,41 @@
         display: flex;
         flex-direction: column;
 
-        .memoPost{
+        .bookPost{
+            background: rgba(0,0,0,0.8);
+            color: rgb(255, 246, 246);
             margin: 20px;
-            padding: 10px;
-            background-color: rgba(0,0,0,0.5);
+            padding: 20px;
+
+            .buttons {
+                display: flex;
+                justify-content: flex-end;
+                font-size: 15px;
+
+                button {
+                    font-size: 20px;
+                    border: none;
+                    background: none;
+                    padding: 0 10px;
+                    color: white;
+                }
+            }
         }
 
         .highlights {
             margin: 10px;
-            border: 0.2px solid gray;
-            padding: 10px;
+            padding: 20px;
+            line-height: 1.8;
             border-radius: 10px;
+        }
+
+        .bookInfo, .addedMemo, .createdAt {
+            font-family: 'Nanum Gothic', sans-serif;
+            padding: 10px;
+        }
+
+        .bookInfo {
+            font-size: 25px;
         }
     }
 }

@@ -46,9 +46,7 @@ export default (state = initialState, action) => {
 
     case USER_MEMOS_SEND:
       if (action.memos.length) {
-        ;
         if (!copiedState.memos.length || copiedState.postUpdating || action.page === 1) {
-          ;
           copiedState.memos = action.memos;
           copiedState.postUpdating = false;
         } else {

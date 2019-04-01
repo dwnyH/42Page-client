@@ -16,11 +16,9 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    ;
     const {
       getAllMemos,
       allMemos,
-      update,
       history,
     } = this.props;
     const { memoPage } = this.state;
@@ -31,9 +29,7 @@ class Home extends Component {
     }
 
     if (!allMemos.length || pageState) {
-      ;
       if (pageState) {
-        ;
         history.location.data.pageState = null;
         return getAllMemos(1, true);
       }
@@ -49,10 +45,8 @@ class Home extends Component {
   }
 
   userNameClick(ev) {
-    console.log(ev.currentTarget.id);
     const { history } = this.props;
     const id = ev.currentTarget.id;
-    ;
     history.push({ pathname: `/profile/${id}` });
   }
 

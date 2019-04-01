@@ -15,10 +15,11 @@
     align-items: center;
     flex-direction: column;
     width: 100vw;
+    background: white;
 
     .userImg {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         object-fit: cover;
         border-radius: 50%;
     }
@@ -31,12 +32,44 @@
         display: grid;
         grid-auto-flow: column;
         margin: 20px;
-        width: 90vw;
+        width: 70vw;
         grid-template-columns: 1fr 3fr;
+        margin: 20px 0 10px;
 
         .keywordInfo {
             display: flex;
-            justify-content: space-around;
+            justify-content: flex-end;
+            align-items: center;
+
+            .keywordBtn {
+                font-family: 'Noto Serif KR', serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 10px 15px;
+                border-radius: 20px;
+                border: 0;
+                background: rgb(238, 201, 192);
+                color: #ffffff;
+                font-size: 15px;
+                margin-top: 0px;
+                height: 50px;
+                justify-content: center;
+            }
+        }
+
+        .userInfo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .userName {
+                font-size: 17px;
+                font-weight: 400;
+                padding: 5px;
+                color: rgb(41, 40, 40);
+            }
         }
     }
 

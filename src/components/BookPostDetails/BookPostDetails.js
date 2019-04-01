@@ -55,7 +55,7 @@ class BookPostDetails extends Component {
     const userId = localStorage.getItem('id');
 
     const memoList = memos.map((memo, idx) => (
-      <div className="memoPost" key={memo._id}>
+      <div className="bookPost" key={memo._id}>
         {
           history.location.id === userId
             && (
@@ -88,7 +88,6 @@ class BookPostDetails extends Component {
   }
 
   render() {
-    ;
     let style;
     const { bookInfo, memos } = this.props;
     if (Object.keys(bookInfo).length) {
@@ -103,7 +102,6 @@ class BookPostDetails extends Component {
         backgroundPosition: 'center center',
         zIndex: -10,
         position: 'absolute',
-        filter: 'blur(5px)',
       };
     }
 

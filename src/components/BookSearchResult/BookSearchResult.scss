@@ -6,10 +6,11 @@
 
     .bookList {
         display: grid;
-        grid-auto-flow: column;
-        width: 100%;
         margin-top: 20px;
+        grid-auto-flow: column;
         grid-auto-columns: 1fr 2fr;
+        width: 80vw;
+        align-items: center;
     }
 
     img {

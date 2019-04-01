@@ -26,6 +26,11 @@
             margin: 0;
             border: 0;
         }
+
+        .greenbtn {
+            color: white;
+            border: none;
+        }
     }
 
     .cropImg {
@@ -34,10 +39,8 @@
         margin-top: 20px;
         width: 90%;
         height: 60vh;
-        background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgksbKArKGpZHHPts48oZiAQz7aeWW7IcGECIP3hVsCHNuhZLllw');
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: cover;
+        background: rgba(0, 0, 0, 0.3);
+        box-shadow: inset 3px 3px 25px #8a8a8a;
         align-items: center;
 
 
@@ -68,6 +71,11 @@
         border-radius: 10px;
         margin: 50px 20px 20px;
         font-size: 15px;
+    }
+
+    .greenbtn {
+        color: white;
+        border: none;
     }
 }
 

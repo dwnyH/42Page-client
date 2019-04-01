@@ -90,6 +90,7 @@ class BookSearch extends Component {
         <div className="notice">Book Search</div>
         <div className="searchBox box">
           <input
+            placeholder="책 검색"
             className="search userInput"
             onChange={this.searchKeyword}
             onKeyPress={this.enterKeyPress}

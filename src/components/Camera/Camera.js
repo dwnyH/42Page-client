@@ -137,8 +137,8 @@ class Camera extends Component {
     return (
       <div className="imgUpload">
         <div className="filebox">
-          <label htmlFor="fileButton" className="cameraButton">
-            책 페이지 업로드
+          <label htmlFor="fileButton" className="cameraButton greenbtn">
+            Upload your page
           </label>
           <input
             id="fileButton"
@@ -165,8 +165,8 @@ class Camera extends Component {
             : null
         }
         </div>
-        <button className="bookmark" type="submit" onClick={this.turnToText}>
-          선택영역 저장
+        <button className="bookmark greenbtn" type="submit" onClick={this.turnToText}>
+          Save the sentences
         </button>
       </div>
     );

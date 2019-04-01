@@ -10,8 +10,11 @@
     .bookList {
         display: grid;
         grid-auto-flow: column;
-        width: 90vw;
+        width: 80vw;
         margin: 20px 0px;
+        grid-auto-columns: 1fr 2fr;
+        justify-content: center;
+        align-items: center;
     }
 
     img {
@@ -23,7 +26,7 @@
         color: rgb(255, 248, 240);
         display: flex;
         flex-direction: column;
-        padding: 20px;
+        padding: 20px 10px;
 
         .title {
             font-size: 18px;

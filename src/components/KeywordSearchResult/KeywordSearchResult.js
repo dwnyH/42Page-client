@@ -28,7 +28,7 @@ class KeywordSearchResult extends Component {
 
   render() {
     const { keywordSearchResults } = this.props;
-    debugger;
+
     return (
       <div className="userLists">
         {keywordSearchResults.length

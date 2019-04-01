@@ -1,9 +1,4 @@
 .loginPage {
-  // background-color: #3D3F4B;
-  background-image: url('https://images.unsplash.com/photo-1496867557017-559adb93b339?ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80');
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
   display: flex;
   text-align: center;
   align-items: center;
@@ -12,63 +7,32 @@
   flex-direction: column;
 
   .title {
-    font-family: 'Josefin Slab', serif;
-    font-size: 40px;
+    font-size: 35px;
+    margin: 0 0 50px;
+    font-family: 'Rochester', cursive;
     top: 0;
     z-index: 2;
-    background: linear-gradient(to right, rgb(255, 255, 255) 0%, #89a52c 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent
+    color: rgb(59, 58, 58);
   }
 
   .loginBtn {
+    display: flex;
+    flex-direction: column;
 
-    .facebook {
-        box-sizing: border-box;
-        position: relative;
-        padding: 0 15px 0 46px;
-        border: none;
-        text-align: left;
-        line-height: 34px;
-        white-space: nowrap;
-        border-radius: 0.2em;
-        font-size: 16px;
-        color: #FFF;
-      }
-      .facebook:before {
-        content: "";
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 34px;
-        height: 100%;
-      }
-      .facebook:focus {
-        outline: none;
-      }
-      .facebook:active {
-        box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
-      }
-
-    .facebook {
-        background-color: #4C69BA;
-        background-image: linear-gradient(#4C69BA, #3B55A0);
-        /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
-        text-shadow: 0 -1px 0 #354C8C;
-    }
-    .facebook:before {
-      border-right: #364e92 1px solid;
-      background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
-    }
-    .facebook:hover,
-    .facebook:focus {
-      background-color: #5B7BD5;
-      background-image: linear-gradient(#5B7BD5, #4864B1);
+    button {
+      font-family: 'Noto Serif KR', serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: 20px;
+      padding: 10px 20px;
+      border-radius: 3px;
+      border: 0;
+      background: #6a8a70;
+      color: #ffffff;
+      font-size: 15px;
     }
   }
 }
 
-.loginPage:before {
-  background-color: #3D3F4B;
-}
