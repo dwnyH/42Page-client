@@ -17,7 +17,6 @@ class Memo extends Component {
   }
 
   componentDidMount() {
-    ;
     const { history } = this.props;
     if (history.location.data) {
       this.memoId = history.location.data.postId;

@@ -17,13 +17,17 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
-    const { getUserProfile, match } = this.props;
+    const { getUserProfile, getUserMemos, getUserBooks, match } = this.props;
     let id;
 
     if (match.params.user_id) {
       id = match.params.user_id;
+      getUserMemos(1, id);
+      getUserBooks(false, id);
     } else {
       id = localStorage.getItem('id');
+      getUserMemos(1, id);
+      getUserBooks(false, id);
     }
 
     getUserProfile(id);

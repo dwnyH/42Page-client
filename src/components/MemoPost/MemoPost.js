@@ -13,7 +13,7 @@ class MemoPost extends Component {
   }
 
   componentDidMount() {
-    const { getUserMemos, memos,update } = this.props;
+    const { getUserMemos, memos, update } = this.props;
     const { memoPage } = this.state;
 
     if (!memos.length || update) {

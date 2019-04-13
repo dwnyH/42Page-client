@@ -52,6 +52,7 @@ export default (state = initialState, action) => {
         } else {
           copiedState.memos = [...copiedState.memos, ...action.memos];
         }
+        copiedState.memoSearching = true;
       } else {
         copiedState.memoSearching = false;
       }
