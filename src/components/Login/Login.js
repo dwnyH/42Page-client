@@ -27,8 +27,8 @@ class Login extends Component {
       if (result) {
         const { email, photoURL, uid } = result.user;
         const name = result.user.displayName;
-        const url = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
-        const jwtTokenResponse = await axios.post(`${url}/auth`, {
+        const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+        const jwtTokenResponse = await axios.post(`${api}/auth`, {
           name,
           email,
           photoURL,

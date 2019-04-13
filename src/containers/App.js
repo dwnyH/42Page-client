@@ -38,7 +38,7 @@ class App extends Component {
     }
 
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
 
     try {
       memoSubmitResponse = await axios({
@@ -77,7 +77,7 @@ class App extends Component {
     let memoSubmitResponse;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const { history } = this.props;
 
     try {
@@ -114,7 +114,8 @@ class App extends Component {
     let deleteRequestResponse;
     const { history } = this.props;
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+
     try {
       deleteRequestResponse = await axios({
         method: 'delete',
@@ -353,7 +354,7 @@ const mapStateToProps = (state) => {
         if (moment(date).format('MMMM') === moment().format('MMMM')) {
           convertedDate = moment(date).fromNow();
         } else {
-          convertedDate = moment(date).format('MMMM do');
+          convertedDate = moment(date).format('MMMM Do');
         }
       } else {
         convertedDate = moment(date).format('YYYY MMMM Do');
@@ -415,7 +416,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   async bookSearch(keyword, page, isNewKeyword) {
     if (keyword && page) {
-      const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+      const api = 'https://dapi.kakao.com/v3/search/book';
       const searchResponse = await axios.get(
         `${api}?query=${keyword}&size=20&page=${page}`, {
           headers: {
@@ -434,7 +435,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.sendAddedMemo(memo));
   },
   sendProfilePageState(isMemo) {
-    ;
     dispatch(actions.sendProfilePageState(isMemo));
   },
   sendMemoState(isPrivate) {
@@ -454,7 +454,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getKeywordsRelatedUsers(keyword) {
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const keywordSearchResponse = await axios({
       method: 'get',
       url: `${api}/keywords/${keyword}/users`,
@@ -470,7 +470,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getUserBooks(updating, id) {
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/books`,
@@ -485,7 +485,8 @@ const mapDispatchToProps = dispatch => ({
   async getUserKeywords(id) {
     let userKeywordsResponse;
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+
     try {
       userKeywordsResponse = await axios({
         method: 'get',
@@ -503,7 +504,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getUserProfile(id) {
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -517,7 +518,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getAllMemos(page, isUpdate) {
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const allMemosResponse = await axios({
       method: 'get',
       url: `${api}/posts/memos/${page}`,
@@ -532,7 +533,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserMemos(page, userId) {
     let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     if (userId) {
       id = userId;
     }
@@ -551,7 +552,7 @@ const mapDispatchToProps = dispatch => ({
   async getSelectedMemos(bookTitle, userId) {
     let memoRequestResponse;
     const token = localStorage.getItem('token');
-    const api = 'http://42pageServer-env.yrrfnrb7qn.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     try {
       memoRequestResponse = await axios({
         method: 'get',

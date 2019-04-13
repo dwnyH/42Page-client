@@ -14,6 +14,7 @@ class BookPost extends Component {
   }
 
   bookClicked(ev) {
+    debugger;
     const { userBooks, history, id } = this.props;
     const selectedBook = userBooks[ev.currentTarget.id];
 
@@ -26,7 +27,6 @@ class BookPost extends Component {
 
   makeBookPosts() {
     const { userBooks } = this.props;
-
     const bookPostLists = userBooks.map((book, idx) => (
       <div className="bookList" key={idx} id={idx} onClick={this.bookClicked}>
         <img src={book.img} alt="thumbnail" />
