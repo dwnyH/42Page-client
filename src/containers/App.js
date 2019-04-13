@@ -38,7 +38,7 @@ class App extends Component {
     }
 
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
 
     try {
       memoSubmitResponse = await axios({
@@ -77,7 +77,7 @@ class App extends Component {
     let memoSubmitResponse;
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const { history } = this.props;
 
     try {
@@ -114,7 +114,7 @@ class App extends Component {
     let deleteRequestResponse;
     const { history } = this.props;
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
 
     try {
       deleteRequestResponse = await axios({
@@ -454,7 +454,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getKeywordsRelatedUsers(keyword) {
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const keywordSearchResponse = await axios({
       method: 'get',
       url: `${api}/keywords/${keyword}/users`,
@@ -470,7 +470,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getUserBooks(updating, id) {
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/books`,
@@ -485,7 +485,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserKeywords(id) {
     let userKeywordsResponse;
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
 
     try {
       userKeywordsResponse = await axios({
@@ -504,7 +504,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getUserProfile(id) {
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const userInfoResponse = await axios({
       method: 'get',
       url: `${api}/users/${id}/userInfo`,
@@ -518,7 +518,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getAllMemos(page, isUpdate) {
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     const allMemosResponse = await axios({
       method: 'get',
       url: `${api}/posts/memos/${page}`,
@@ -533,7 +533,7 @@ const mapDispatchToProps = dispatch => ({
   async getUserMemos(page, userId) {
     let id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     if (userId) {
       id = userId;
     }
@@ -552,7 +552,7 @@ const mapDispatchToProps = dispatch => ({
   async getSelectedMemos(bookTitle, userId) {
     let memoRequestResponse;
     const token = localStorage.getItem('token');
-    const api = 'http://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
+    const api = 'https://42pageBookmemo-env.kswdgdhrrz.ap-northeast-2.elasticbeanstalk.com';
     try {
       memoRequestResponse = await axios({
         method: 'get',
