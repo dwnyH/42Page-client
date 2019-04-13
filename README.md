@@ -2,6 +2,10 @@
 
 42Page는 책에서 마음에 드는 구절을 편리하고 가독성있게 저장할 수 있는 모바일 웹 어플리케이션입니다. 책의 문장을 사진으로 찍으면 텍스트화 보여주도록 하고, 다른 사람들과 어플리케이션 내에서 메모 내용을 공유할 수 있습니다.
 
+## **Preview**
+
+![preview](https://github.com/hiiiii11/42Page-client/blob/master/src/42page-gif.gif)
+
 ### **Features**
 
 - 로그인, 회원 인증
