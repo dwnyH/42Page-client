@@ -35,6 +35,7 @@ class Profile extends Component {
 
   postingChange(ev) {
     const { navigateBtnClick } = this.props;
+
     if (ev.currentTarget.className === 'memoButton') {
       navigateBtnClick(true);
     } else {

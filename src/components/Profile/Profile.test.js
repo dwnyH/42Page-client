@@ -2,6 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Profile from './Profile';
 import Modal from '../Modal/Modal';
+import MemoPost from '../MemoPost/MemoPost';
+import BookPost from '../BookPost/BookPost';
 
 const setup = () => {
   const props = {
@@ -10,6 +12,7 @@ const setup = () => {
     deleteBtnClick: jest.fn(),
     getUserKeywords: jest.fn(),
     getUserBooks: jest.fn(),
+    getUserMemos: jest.fn(),
     postInfo: {
       postUpdating: false,
       memos: [],
@@ -53,6 +56,7 @@ describe('Profile', () => {
     expect(props.deleteBtnClick).toBeDefined();
     expect(props.getUserKeywords).toBeDefined();
     expect(props.getUserBooks).toBeDefined();
+    expect(props.getUserMemos).toBeDefined();
     expect(props.postInfo.postUpdating).toEqual(false);
     expect(props.postInfo.memos).toEqual([]);
     expect(props.postInfo.profile.name).toEqual('');
@@ -65,10 +69,34 @@ describe('Profile', () => {
     expect(props.history.push).toBeDefined();
     expect(props.match.params).toEqual({});
   });
+
+  it('should call function when memoButton is clicked', () => {
+    const memoButton = component.find('.memoButton');
+    const postingEvent = {
+      currentTarget: {
+        className: 'memoButton',
+      },
+    };
+
+    memoButton.simulate('click', postingEvent);
+    expect(props.navigateBtnClick).toHaveBeenLastCalledWith(true);
+  });
+
+  it('should call function when bookButton is clicked', () => {
+    const bookButton = component.find('.bookButton');
+    const postingEvent = {
+      currentTarget: {
+        className: 'bookButton',
+      },
+    };
+
+    bookButton.simulate('click', postingEvent);
+    expect(props.navigateBtnClick).toHaveBeenLastCalledWith(false);
+  });
 });
 
 describe('Keyword button', () => {
-  const { component } = setup();
+  let { component } = setup();
 
   it('should handle click events', () => {
     component.instance().showModal = jest.fn(() => {
@@ -90,5 +118,25 @@ describe('Modal', () => {
     expect(component.find(Modal).length).toBe(0);
     component.setState({ isModalOpen: true });
     expect(component.find(Modal).length).toBe(1);
+  });
+});
+
+describe('MemoPost', () => {
+  const { component } = setup();
+
+  it('should be mounted on certain state', () => {
+    expect(component.find(MemoPost).length).toBe(1);
+    component.setProps({ isMemoPage: false });
+    expect(component.find(MemoPost).length).toBe(0);
+  });
+});
+
+describe('BookPost', () => {
+  const { component } = setup();
+
+  it('should be mounted on certain state', () => {
+    expect(component.find(BookPost).length).toBe(0);
+    component.setProps({ isMemoPage: false });
+    expect(component.find(BookPost).length).toBe(1);
   });
 });
