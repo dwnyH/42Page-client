@@ -85,6 +85,8 @@ npm start
 ## **Things to do**
 
 * ~~AWS로 배포한 서버 https 연결~~
+* 로딩화면 
+* 에러 
 * Circle CI
 * Component Unit Test
 * Server Api Unit Test
