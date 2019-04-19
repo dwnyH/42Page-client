@@ -1,12 +1,4 @@
 # **42Page** - client & server
-> **마음에 남는 문장**
-책을 보면서 마음에 드는 문장을 핸드폰 카메라로 찍으면, 42Page는 내용을 OCR을 이용해 텍스트로 변환하여, 가독성있게 메모할 수 있도록 도와줍니다.
-
-> **관심있는 키워드**
-메모를 바탕으로 사용자가 관심있는 키워드를 빈도수 기준으로 분석하여, 사용자 자신이 어떤 키워드에 관심이 있는지 알 수 있습니다. 
-
-> **메모를 나누는 42**
-찍은 내용을 피드로 함께 공유할 수 있습니다. 또한 관심있는 키워드를 가지고 있는 사람은 누구인지 검색하여, 그 사용자가 읽는 책 목록이나 메모들을 볼 수 있습니다.
 
 ## **Why**
 종종 책을 읽을 때 마음에 드는 구절을 보면 사진을 찍거나 적는 식으로 기록을 해 두었습니다. 
@@ -33,7 +25,7 @@
 
 **Client**
 
-```javascript
+```
 git clone https://github.com/hiiiii11/42Page-client.git
 cd 42Page-client
 npm install
@@ -42,7 +34,7 @@ npm start
 
 **Server**
 
-```javascript
+```
 git clone https://github.com/hiiiii11/42Page-server.git
 cd 42Page-server
 npm install
