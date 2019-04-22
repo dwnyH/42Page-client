@@ -129,8 +129,6 @@ class App extends Component {
       console.log(err);
     }
 
-    console.log('deleteResponse', deleteRequestResponse);
-
     if (deleteRequestResponse.status === 204) {
       history.push({
         pathname: '/home',
