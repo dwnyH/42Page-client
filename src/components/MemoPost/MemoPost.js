@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import './MemoPost.scss';
 
@@ -85,3 +86,13 @@ class MemoPost extends Component {
 }
 
 export default MemoPost;
+
+MemoPost.propTypes = {
+  getUserMemos: PropTypes.func,
+  memos: PropTypes.array,
+  update: PropTypes.bool,
+  memoSearching: PropTypes.bool,
+  profile: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+};

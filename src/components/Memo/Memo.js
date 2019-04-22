@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import 'react-toggle/style.css';
 import './Memo.scss';
@@ -18,6 +19,7 @@ class Memo extends Component {
 
   componentDidMount() {
     const { history } = this.props;
+
     if (history.location.data) {
       this.memoId = history.location.data.postId;
     }
@@ -47,6 +49,7 @@ class Memo extends Component {
   }
 
   onSubmitBtnClick() {
+    debugger;
     const {
       memoInfo,
       submitBtnClick,
@@ -130,3 +133,19 @@ class Memo extends Component {
 }
 
 export default Memo;
+
+Memo.propTypes = {
+  memoInfo: PropTypes.shape({
+    book: PropTypes.shape({
+      author: PropTypes.string,
+      img: PropTypes.string,
+      publisher: PropTypes.string,
+      title: PropTypes.string,
+    }),
+    highlights: PropTypes.string,
+    memo: PropTypes.string,
+    isPrivate: PropTypes.bool,
+  }),
+  editBtnClick: PropTypes.func,
+  postId: PropTypes.string,
+};

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Camera.scss';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -38,6 +39,7 @@ class Camera extends Component {
 
   onImageLoaded = (image, pixelCrop) => {
     const { crop } = this.state;
+
     this.imageRef = image;
     this.makeClientCrop(crop, pixelCrop);
   }
@@ -86,6 +88,7 @@ class Camera extends Component {
       ).then((blob) => {
         let imgData;
         const reader = new FileReader();
+
         reader.onloadend = () => {
           imgData = reader.result.split(',')[1];
           this.setState({
@@ -133,7 +136,7 @@ class Camera extends Component {
   }
 
   render() {
-    const { src, crop, croppedImageUrl } = this.state;
+    const { src, crop } = this.state;
     return (
       <div className="imgUpload">
         <div className="filebox">
@@ -174,3 +177,11 @@ class Camera extends Component {
 }
 
 export default Camera;
+
+Camera.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  addMemoBtnClick: PropTypes.func,
+  sendEditingState: PropTypes.func,
+};

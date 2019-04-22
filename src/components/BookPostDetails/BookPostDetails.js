@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './BookPostDetails.scss';
 
 class BookPostDetails extends Component {
@@ -17,7 +18,6 @@ class BookPostDetails extends Component {
   }
 
   componentDidMount() {
-    ;
     const { getSelectedMemos, match, history } = this.props;
     const { bookTitle } = match.params;
     const { id } = history.location;
@@ -26,7 +26,6 @@ class BookPostDetails extends Component {
   }
 
   penIconClick(ev) {
-    ;
     const {
       history,
       memos,
@@ -39,7 +38,12 @@ class BookPostDetails extends Component {
     const postId = ev.currentTarget.id.split(':')[0];
     const index = Number(ev.currentTarget.id.split(':')[1]);
     const memoInfo = memos[index];
-    const { img, title, author, publisher } = memoInfo.bookInfo;
+    const {
+      img,
+      title,
+      author,
+      publisher,
+    } = memoInfo.bookInfo;
 
     sendAddedMemo(memoInfo.addedMemo);
     sendHighlights(memoInfo.highlights);
@@ -90,6 +94,7 @@ class BookPostDetails extends Component {
   render() {
     let style;
     const { bookInfo, memos } = this.props;
+
     if (Object.keys(bookInfo).length) {
       style = {
         display: 'flex',
@@ -123,3 +128,29 @@ class BookPostDetails extends Component {
 }
 
 export default BookPostDetails;
+
+BookPostDetails.propTypes = {
+  trashcanIconClick: PropTypes.func,
+  img: PropTypes.string,
+  getSelectedMemos: PropTypes.func,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      id: PropTypes.string,
+    })
+  }),
+  memos: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string,
+    highlights: PropTypes.string,
+    bookInfo: PropTypes.shape({
+      title: PropTypes.string,
+    }),
+    addedMemo: PropTypes.string,
+    createdAt: PropTypes.string,
+  })),
+  sendAddedMemo: PropTypes.func,
+  sendHighlights: PropTypes.func,
+  sendEditingState: PropTypes.func,
+  sendChosenBook: PropTypes.func,
+  sendPostId: PropTypes.func,
+  bookInfo: PropTypes.object,
+};

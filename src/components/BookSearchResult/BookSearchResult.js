@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import './BookSearchResult.scss';
 
@@ -34,7 +35,7 @@ class BookSearchResult extends Component {
       searchStop,
       keepSearch,
       page,
-      keyword
+      keyword,
     } = this.props;
 
     if (!searchStop) {
@@ -76,3 +77,17 @@ class BookSearchResult extends Component {
 }
 
 export default BookSearchResult;
+
+BookSearchResult.propTypes = {
+  searchStop: PropTypes.bool,
+  bookClick: PropTypes.func,
+  keepSearch: PropTypes.func,
+  history: PropTypes.object,
+  page: PropTypes.number,
+  keyword: PropTypes.string,
+  books: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    authors: PropTypes.array,
+    publisher: PropTypes.string,
+  })),
+};

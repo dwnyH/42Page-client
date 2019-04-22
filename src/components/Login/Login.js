@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Login.scss';
+import PropTypes from 'prop-types';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import axios from 'axios';
@@ -85,3 +86,9 @@ class Login extends Component {
 }
 
 export default Login;
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+};

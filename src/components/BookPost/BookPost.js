@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './BookPost.scss';
 
 class BookPost extends Component {
@@ -14,7 +15,6 @@ class BookPost extends Component {
   }
 
   bookClicked(ev) {
-    debugger;
     const { userBooks, history, id } = this.props;
     const selectedBook = userBooks[ev.currentTarget.id];
 
@@ -56,3 +56,17 @@ class BookPost extends Component {
 }
 
 export default BookPost;
+
+BookPost.propTypes = {
+  getUserBooks: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  userBooks: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    author: PropTypes.string,
+    publisher: PropTypes.string,
+    image: PropTypes.string,
+  })).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};

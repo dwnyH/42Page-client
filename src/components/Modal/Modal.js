@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import WordCloud from 'wordcloud';
 import './Modal.scss';
 
@@ -20,17 +21,13 @@ class Modal extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {keywords} = this.props;
+    const { keywords } = this.props;
     if (keywords !== prevProps.keywords && Object.keys(keywords).length) {
       this.makeKeywordLists(keywords);
     }
   }
 
   makeKeywordLists(allKeywords) {
-    // const keywordsInFormat = Object.keys(allKeywords).map(text => (
-    //   [text, allKeywords[text] * 10]
-    // ));
-
     WordCloud.minFontSize = '15px';
     WordCloud(this.canvasRef.current, {
       list: allKeywords,
@@ -60,3 +57,10 @@ class Modal extends Component {
 }
 
 export default Modal;
+
+Modal.propTypes = {
+  getUserKeywords: PropTypes.func,
+  keywords: PropTypes.array,
+  userId: PropTypes.string,
+  backgroundClick: PropTypes.func,
+};

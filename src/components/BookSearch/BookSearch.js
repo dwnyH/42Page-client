@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import BookSearchResult from '../BookSearchResult/BookSearchResult';
 import './BookSearch.scss';
@@ -48,7 +49,7 @@ class BookSearch extends Component {
   inputBook() {
     const {
       bookClick,
-      history
+      history,
     } = this.props;
     const { writtenInput } = this.state;
 
@@ -81,7 +82,7 @@ class BookSearch extends Component {
       searchBtnClick,
       books,
       bookClick,
-      history
+      history,
     } = this.props;
     const { isLastSearchPage, page, keyword } = books;
 
@@ -121,3 +122,13 @@ class BookSearch extends Component {
 }
 
 export default BookSearch;
+
+BookSearch.propTypes = {
+  searchBtnClick: PropTypes.func,
+  books: PropTypes.shape({
+    keyword: PropTypes.string,
+  }),
+  bookClick: PropTypes.func,
+  getSelectedMemos: PropTypes.func,
+  history: PropTypes.object,
+};

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import './Profile.scss';
 import Modal from '../Modal/Modal';
 import BookPost from '../BookPost/BookPost';
@@ -17,7 +18,12 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
-    const { getUserProfile, getUserMemos, getUserBooks, match } = this.props;
+    const {
+      getUserProfile,
+      getUserMemos,
+      getUserBooks,
+      match,
+    } = this.props;
     let id;
 
     if (match.params.user_id) {
@@ -156,3 +162,25 @@ class Profile extends Component {
 }
 
 export default Profile;
+
+Profile.propTypes = {
+  getUserProfile: PropTypes.func,
+  getUserMemos: PropTypes.func,
+  getUserBooks: PropTypes.func,
+  getUserKeywords: PropTypes.func,
+  navigateBtnClick: PropTypes.func,
+  postInfo: PropTypes.shape({
+    profile: PropTypes.shape({
+      name: PropTypes.string,
+      imgSrc: PropTypes.string,
+    }),
+    keywords: PropTypes.object,
+    postUpdating: PropTypes.bool,
+    memoSearching: PropTypes.bool,
+    memo: PropTypes.array,
+  }),
+  userBooks: PropTypes.array,
+  deleteBtnClick: PropTypes.func,
+  history: PropTypes.object,
+  isMemoPage: PropTypes.bool,
+};

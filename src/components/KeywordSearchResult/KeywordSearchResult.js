@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './KeywordSearchResult.scss';
 
 class KeywordSearchResult extends Component {
@@ -12,6 +13,7 @@ class KeywordSearchResult extends Component {
   selectUser(ev) {
     const { history } = this.props;
     const selectedUserId = ev.currentTarget.id;
+
     history.push({ pathname: `/profile/${selectedUserId}` });
   }
 
@@ -41,3 +43,16 @@ class KeywordSearchResult extends Component {
 }
 
 export default KeywordSearchResult;
+
+KeywordSearchResult.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  keywordSearchResults: PropTypes.arrayOf(PropTypes.shape({
+    user: PropTypes.shape({
+      _id: PropTypes.string,
+      photoURL: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  })),
+};

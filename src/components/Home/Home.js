@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import './Home.scss';
 import 'firebase/auth';
@@ -21,7 +22,6 @@ class Home extends Component {
       allMemos,
       history,
     } = this.props;
-    const { memoPage } = this.state;
     let pageState;
 
     if (history.location.data) {
@@ -71,12 +71,17 @@ class Home extends Component {
     const { allMemos } = this.props;
     const memoLists = allMemos.map(memo => (
       <div className="memoPost" key={memo._id}>
-        <div className="userInfo" onClick={this.userNameClick} id={memo.user_id._id}>
+        <button
+          type="button"
+          className="userInfo"
+          onClick={this.userNameClick}
+          id={memo.user_id._id}
+        >
           <img src={memo.user_id.photoURL} alt="profileImage" />
           <div className="user">
             {memo.user_id.name.split(' ')[0]}
           </div>
-        </div>
+        </button>
         <div className="highlights">
           {memo.highlights}
         </div>
@@ -113,3 +118,23 @@ class Home extends Component {
 }
 
 export default Home;
+
+Home.propTypes = {
+  getAllMemos: PropTypes.func,
+  allMemosSearching: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  allMemos: PropTypes.arrayOf(PropTypes.shape({
+    user_id: PropTypes.shape({
+      _id: PropTypes.string,
+      name: PropTypes.string,
+      photoURL: PropTypes.string,
+    }),
+    highlights: PropTypes.string,
+    createdAt: PropTypes.string,
+    bookInfo: PropTypes.shape({
+      title: PropTypes.string,
+    }),
+  })),
+};

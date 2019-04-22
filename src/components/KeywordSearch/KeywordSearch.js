@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import KeywordSearchResult from '../KeywordSearchResult/KeywordSearchResult';
 import './KeywordSearch.scss';
 
@@ -67,3 +68,9 @@ class KeywordSearch extends Component {
 }
 
 export default KeywordSearch;
+
+KeywordSearch.propTypes = {
+  onSubmit: PropTypes.func,
+  keywordSearchResults: PropTypes.array,
+  history: PropTypes.object,
+};
